@@ -376,7 +376,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
       <figure class="pol pol-raw">
         <span class="tape" aria-hidden="true"></span>
         <div class="shot">
-          <video id="v-raw" src="media/raw-claude-edit.mp4" poster="media/raw-start.jpg" autoplay muted loop playsinline preload="auto" aria-label="The raw, unedited clip"></video>
+          <video id="v-raw" src="/media/raw-claude-edit.mp4" poster="/media/raw-start.jpg" autoplay muted loop playsinline preload="auto" aria-label="The raw, unedited clip"></video>
         </div>
         <figcaption>raw file</figcaption>
       </figure>
@@ -387,7 +387,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
       <figure class="pol pol-edit">
         <span class="tape" aria-hidden="true" style="transform:translateX(-50%) rotate(5deg)"></span>
         <div class="shot">
-          <video id="v-edit" src="media/claude-edit.mp4" poster="media/claude-edit-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="The same clip after Claude's edit"></video>
+          <video id="v-edit" src="/media/claude-edit.mp4" poster="/media/claude-edit-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="The same clip after Claude's edit"></video>
           <button class="sound" id="sound" type="button" aria-pressed="false">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4z"/><path id="snd-wave" d="M22 9l-6 6M16 9l6 6"/></svg>
             <span id="sound-label">Sound off</span>
@@ -420,7 +420,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
         <div class="pol">
           <span class="tape" aria-hidden="true"></span>
           <div class="lab-frame s-hormozi" id="lab-frame">
-            <img src="media/face-a.jpg" alt="Still of Gunhild from her reel, restyled in the selected editing style">
+            <img src="/media/face-a.jpg" alt="Still of Gunhild from her reel, restyled in the selected editing style">
             <div class="grain" aria-hidden="true"></div>
             <div id="lab-pops" aria-hidden="true"></div>
             <div class="cap" id="lab-cap"></div>
@@ -492,12 +492,12 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
       <div class="pair">
         <figure class="pol">
           <span class="tape" aria-hidden="true"></span>
-          <div class="shot"><span class="label">Preview</span><img src="media/picker.jpg" alt="Effect preview screen: three versions of each effect with tick boxes"></div>
+          <div class="shot"><span class="label">Preview</span><img src="/media/picker.jpg" alt="Effect preview screen: three versions of each effect with tick boxes"></div>
           <figcaption>three versions, I tick one</figcaption>
         </figure>
         <figure class="pol">
           <span class="tape" aria-hidden="true" style="transform:translateX(-50%) rotate(4deg)"></span>
-          <div class="shot"><span class="label on">Final</span><img src="media/claude-edit-poster.jpg" alt="Finished reel with Edited by Claude title and captions"></div>
+          <div class="shot"><span class="label on">Final</span><img src="/media/claude-edit-poster.jpg" alt="Finished reel with Edited by Claude title and captions"></div>
           <figcaption>rendered with my picks</figcaption>
         </figure>
       </div>
@@ -515,7 +515,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
       </div>
       <div class="carousel">
         <div class="track" id="track" tabindex="0" aria-label="Carousel slides">
-          <div class="slide sl-photo"><img src="media/face-b.jpg" alt=""><span class="n">1 / 5</span><h4>This entire video was edited by <em>Claude</em></h4><span class="swipe">swipe →</span></div>
+          <div class="slide sl-photo"><img src="/media/face-b.jpg" alt=""><span class="n">1 / 5</span><h4>This entire video was edited by <em>Claude</em></h4><span class="swipe">swipe →</span></div>
           <div class="slide sl-sticky"><span class="n">2 / 5</span><h4>What Claude <em>did</em></h4><div class="steps-mini"><div>colour grading</div><div>logos that pop</div><div>text behind me</div></div></div>
           <div class="slide sl-ink"><span class="n">3 / 5</span><h4>No editing app. <em>No timeline.</em></h4><p>I describe the edit in plain words. Claude builds it.</p></div>
           <div class="slide sl-paper"><span class="n">4 / 5</span><h4>I pick every effect <em>before it renders</em></h4><div class="steps-mini"><div>1 · upload my video</div><div>2 · tick the effect I want</div><div>3 · Claude renders it</div></div></div>
@@ -548,8 +548,8 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 <section id="story">
   <div class="wrap story">
     <div class="polaroids" aria-hidden="true">
-      <figure class="pol p1"><span class="tape"></span><img src="media/face-b.jpg" alt=""><figcaption>studio day</figcaption></figure>
-      <figure class="pol p2"><span class="tape" style="transform:translateX(-50%) rotate(5deg)"></span><img src="media/claude-edit-poster.jpg" alt=""><figcaption>edited by Claude</figcaption></figure>
+      <figure class="pol p1"><span class="tape"></span><img src="/media/face-b.jpg" alt=""><figcaption>studio day</figcaption></figure>
+      <figure class="pol p2"><span class="tape" style="transform:translateX(-50%) rotate(5deg)"></span><img src="/media/claude-edit-poster.jpg" alt=""><figcaption>edited by Claude</figcaption></figure>
       <div class="sticky">idea → posted while it still feels fresh</div>
     </div>
     <div class="story-copy">
@@ -680,7 +680,7 @@ document.querySelectorAll("form.wl").forEach(form => {
       const r = await fetch("/api/subscribe", { method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ first_name: name, email, company: form.company.value }) });
       if (!r.ok) throw new Error(r.status);
-      location.href = "/thanks?n=" + encodeURIComponent(name.split(/\s+/)[0]);
+      location.href = "/editing/thanks?n=" + encodeURIComponent(name.split(/\s+/)[0]);
     } catch (_) {
       fail('Something went wrong on my end. <a href="' + HOSTED_FORM + '" target="_blank" rel="noopener">Join here instead</a>.');
     }
