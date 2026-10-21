@@ -1,3 +1,10 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
+  "redirects": [
+    { "source": "/", "destination": "/editing", "permanent": false }
+  ],
+  "rewrites": [
+    { "source": "/editing", "destination": "/index.html" },
+    { "source": "/editing/thanks", "destination": "/thanks.html" }
+  ]
 }
