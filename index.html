@@ -1,0 +1,752 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>The Claude Editing System</title>
+<meta name="description" content="The Claude Editing System: from raw video to your own style. Teach Claude to edit in any style, customized to your brand. Join the waitlist.">
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;800&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Direction F, "Dark + Moodboard": dark studio pages alternating with a cork/paper moodboard.
+   Sora for type, Caveat for hand-written notes, taped polaroids and sticky notes as the scrapbook layer.
+   One committed look (no theme switch). */
+:root{
+  --ink:#151311; --ink2:#1E1B18; --cream:#F2ECE3; --muted:#A9A196; --clay:#E08A5F; --clay-d:#A9542F;
+  --board:#E9E0D1; --paper:#F7F1E6; --sticky:#F3C969; --brown:#2A2420; --brown-m:#6B6157;
+  --line:rgba(242,236,227,.14); --line-d:rgba(42,36,32,.16);
+  --f-display:"Sora",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-hand:"Caveat","Comic Sans MS",cursive;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --wrap:1180px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--ink);color:var(--cream);font-family:var(--f-display);font-weight:300;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{font-family:var(--f-display);font-weight:800;margin:0;text-wrap:balance;letter-spacing:-.04em}
+p{margin:0}
+a{color:inherit}
+b,strong{font-weight:600}
+em,.hand{font-family:var(--f-hand);font-style:normal;font-weight:700;letter-spacing:0;color:var(--clay);font-size:1.25em;line-height:.9}
+.mono{font-family:var(--f-mono);font-size:12.5px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
+:focus-visible{outline:2px solid var(--clay);outline-offset:3px;border-radius:6px}
+
+/* the moodboard surface */
+.board{background-color:var(--board);background-image:radial-gradient(rgba(0,0,0,.07) 1px,transparent 1px);background-size:22px 22px;color:var(--brown)}
+.board .eyebrow{color:var(--brown-m)}
+.board em,.board .hand{color:var(--clay-d)}
+.tape{position:absolute;z-index:3;top:-13px;left:50%;width:86px;height:26px;background:rgba(232,214,170,.85);transform:translateX(-50%) rotate(-4deg);clip-path:polygon(3% 8%,10% 0,22% 7%,36% 0,50% 6%,63% 0,77% 7%,90% 0,100% 9%,97% 50%,100% 92%,88% 100%,75% 93%,61% 100%,48% 94%,34% 100%,21% 93%,8% 100%,0 90%,3% 50%);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.pol{position:relative;margin:0;background:var(--paper);padding:9px 9px 40px;box-shadow:0 18px 30px -14px rgba(0,0,0,.45),0 2px 4px rgba(0,0,0,.12)}
+.pol figcaption{position:absolute;left:12px;right:12px;bottom:6px;font-family:var(--f-hand);font-weight:700;font-size:23px;color:var(--brown);line-height:1.2}
+.sticky{background:var(--sticky);color:var(--brown);font-family:var(--f-hand);font-weight:700;line-height:1.1;padding:14px 16px;box-shadow:0 12px 20px -12px rgba(0,0,0,.4)}
+
+.cta{display:inline-flex;align-items:center;gap:10px;background:var(--clay);color:var(--ink);text-decoration:none;font-family:var(--f-display);font-weight:600;font-size:16px;padding:15px 24px;border-radius:999px;border:0;cursor:pointer;transition:background .15s ease,transform .15s ease}
+.cta:hover{background:#EB9C74;transform:translateY(-1px)}
+.cta svg{width:18px;height:18px}
+.cta.small{font-size:13.5px;padding:9px 16px}
+
+header{border-bottom:1px solid var(--line)}
+header .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-block:14px}
+.brand{font-weight:800;font-size:19px;text-decoration:none;display:flex;align-items:baseline;gap:10px;letter-spacing:-.04em}
+.brand .hand{font-size:22px}
+.brand small{font-family:var(--f-mono);font-weight:400;font-size:12px;letter-spacing:0;color:var(--muted)}
+
+/* hero: dark text left, moodboard right */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:min(86vh,780px);border-bottom:1px solid var(--line)}
+.hero-copy{display:flex;flex-direction:column;justify-content:center;padding:64px 48px 72px max(16px,calc((100vw - var(--wrap))/2 + 16px))}
+.status{display:inline-flex;align-items:center;gap:9px;align-self:flex-start;border:1px solid var(--line);border-radius:999px;padding:6px 14px 6px 11px;font-size:13.5px;font-weight:400;color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--clay);animation:pulse 1.8s infinite}
+@keyframes pulse{50%{opacity:.35}}
+.hero h1{font-size:clamp(42px,5.4vw,82px);line-height:.98;letter-spacing:-.05em;margin:26px 0 22px}
+.hero h1 .hand{font-size:1.3em;display:inline-block;transform:rotate(-2deg);line-height:.8}
+.lede{font-size:clamp(18px,1.55vw,21px);max-width:34ch;color:var(--muted)}
+.lede b{color:var(--cream);font-weight:600}
+.hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:16px 22px;margin-top:34px}
+.proof{font-size:14px;max-width:24ch;line-height:1.45;color:var(--muted)}
+
+.hero-board{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:64px 24px}
+.ba{position:relative;display:flex;align-items:center;justify-content:center;gap:0;width:100%;max-width:580px}
+.ba .pol{flex:0 0 auto;width:clamp(150px,17vw,228px)}
+.pol-raw{transform:rotate(-4deg)}
+.pol-edit{transform:rotate(3deg)}
+.shot{position:relative;aspect-ratio:9/16;overflow:hidden;background:#000}
+.shot video,.shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none}
+.label{position:absolute;z-index:2;top:10px;left:10px;font-family:var(--f-mono);font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;border-radius:4px;background:rgba(21,19,17,.75);color:var(--cream)}
+.label.on{background:var(--clay);color:var(--ink)}
+.arrow{flex:0 0 auto;width:clamp(64px,7vw,104px);position:relative;margin:0 -6px;z-index:4;text-align:center}
+.arrow svg{width:100%;height:auto;color:var(--clay-d);display:block}
+.arrow span{display:block;font-family:var(--f-hand);font-weight:700;font-size:clamp(19px,1.8vw,24px);color:var(--clay-d);line-height:1;transform:rotate(-6deg);margin-bottom:2px;white-space:nowrap}
+.sound{position:absolute;bottom:10px;right:10px;z-index:2;display:flex;align-items:center;gap:6px;border:0;border-radius:999px;background:var(--paper);color:var(--brown);font:600 12px var(--f-display);padding:6px 11px;cursor:pointer}
+.sound svg{width:15px;height:15px}
+.hero-board .sticky{position:absolute;right:6%;bottom:7%;width:150px;font-size:22px;transform:rotate(6deg)}
+.hero-board .note{position:absolute;left:7%;top:8%;font-family:var(--f-hand);font-weight:700;font-size:24px;color:var(--brown);transform:rotate(-5deg)}
+
+/* marquee */
+.marquee{border-bottom:1px solid var(--line);overflow:hidden;white-space:nowrap;color:var(--muted)}
+.marquee-inner{display:inline-flex;gap:28px;padding:15px 0;font-weight:600;font-size:15px;text-transform:uppercase;letter-spacing:.1em;animation:slide 32s linear infinite}
+.marquee-inner span{display:inline-flex;align-items:center;gap:28px}
+.marquee-inner i{color:var(--clay);font-style:normal}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+section{padding-block:96px}
+.head{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:20px 56px;align-items:end;margin-bottom:52px}
+.head h2{font-size:clamp(32px,4.4vw,56px);line-height:1.02}
+.head p{max-width:44ch;font-size:18px;color:var(--muted)}
+.board .head p{color:var(--brown-m)}
+
+/* style lab */
+.lab{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:64px;align-items:center}
+.lab-wrap{position:relative;justify-self:center;width:100%;max-width:450px}
+.lab-wrap .pol{transform:rotate(-2deg);padding-bottom:12px}
+.lab-frame{position:relative;width:100%;aspect-ratio:720/747;overflow:hidden;background:#000}
+.lab-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none;transition:filter .35s ease, transform .35s ease}
+.lab-frame .grain{position:absolute;inset:0;opacity:0;pointer-events:none;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.lab-sticker{position:absolute;z-index:4;top:-20px;right:-18px;font-size:22px;transform:rotate(6deg);padding:10px 14px}
+.cap{position:absolute;left:0;right:0;bottom:9%;display:flex;justify-content:center;z-index:2;padding:0 6%;text-align:center}
+.s-hormozi img{filter:saturate(1.35) contrast(1.08);transform:scale(1.1)}
+.cap-h{font-family:var(--f-display);font-weight:800;text-transform:uppercase;font-size:clamp(24px,3.4vw,38px);line-height:1;color:#fff;-webkit-text-stroke:2px #000;paint-order:stroke fill;text-shadow:0 4px 0 #000;letter-spacing:-.02em}
+.cap-h span{color:#FFE11A;display:inline-block;transform:scale(1.12) rotate(-2deg);margin:0 .18em}
+.s-ali img{filter:saturate(.85) brightness(1.08) sepia(.12)}
+.cap-a{display:flex;gap:12px;align-items:center;background:#FFF6EE;color:#3B2A2A;border-radius:18px;padding:12px 16px;box-shadow:0 10px 24px -10px rgba(0,0,0,.35);text-align:left;font-family:var(--f-display)}
+.cap-a .ic{width:38px;height:38px;border-radius:12px;background:#FFD7E4;display:grid;place-items:center;flex:none}
+.cap-a .ic svg{width:20px;height:20px;color:#B4436C}
+.cap-a b{display:block;font-size:16px;font-weight:800;letter-spacing:-.02em}
+.cap-a small{font-size:12.5px;opacity:.75}
+.pop{position:absolute;z-index:2;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;box-shadow:0 8px 18px -8px rgba(0,0,0,.4)}
+.pop svg{width:22px;height:22px}
+.s-koe img{filter:grayscale(1) contrast(1.2) brightness(.9)}
+.s-koe .grain{opacity:.35}
+.cap-d{font-family:var(--f-display);font-weight:300;font-size:clamp(17px,2vw,21px);color:#fff}
+.cap-d .cur{display:inline-block;width:2px;height:1.1em;background:#fff;vertical-align:-3px;margin-left:3px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.s-gary img{filter:contrast(1.15) saturate(1.2)}
+.cap-g{display:flex;flex-direction:column;align-items:center;gap:6px}
+.cap-g b{font-family:var(--f-display);font-weight:800;font-size:clamp(20px,2.8vw,30px);color:#fff;background:#111;padding:4px 12px;text-transform:uppercase;letter-spacing:-.02em}
+.cap-g small{font-family:var(--f-display);font-weight:800;font-size:12.5px;color:#111;background:#FFE11A;padding:3px 8px;text-transform:uppercase}
+.cap-b{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;font-family:var(--b-font);font-weight:var(--b-weight,800);font-size:clamp(22px,3.2vw,32px);line-height:1;letter-spacing:-.02em}
+.cap-b span{background:var(--b-bg);color:var(--b-text);padding:5px 9px;border-radius:8px}
+.cap-b span.hi{background:var(--b-hi)}
+.styles{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 22px}
+.styles button{appearance:none;border:1px solid var(--line);background:transparent;color:var(--cream);font:400 15px var(--f-display);padding:10px 17px;border-radius:999px;cursor:pointer;transition:background .15s ease,border-color .15s ease}
+.styles button:hover{border-color:var(--muted)}
+.styles button[aria-pressed="true"]{background:var(--cream);color:var(--ink);border-color:var(--cream);font-weight:600}
+.styles button.mine{border-color:var(--clay);color:var(--clay)}
+.styles button.mine[aria-pressed="true"]{background:var(--clay);color:var(--ink)}
+.style-desc{min-height:3.4em;font-size:18px;color:var(--muted)}
+.style-desc b{color:var(--cream)}
+.brand-kit{margin-top:18px;background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:12px}
+.kit-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.kit-row label{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:400}
+.kit-row input[type=color]{width:38px;height:32px;border:1px solid var(--line);border-radius:8px;padding:2px;background:var(--ink);cursor:pointer}
+.kit-row select{font:400 14px var(--f-display);padding:7px 10px;border-radius:8px;border:1px solid var(--line);background:var(--ink);color:var(--cream)}
+.swatches{display:flex;gap:8px}
+.swatches button{width:30px;height:30px;border-radius:50%;border:2px solid var(--ink);outline:1px solid var(--line);cursor:pointer;padding:0}
+.lab-note{font-size:13.5px;margin-top:18px;color:var(--muted)}
+
+.how{margin-top:96px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.how > div{position:relative;background:var(--paper);color:var(--brown);padding:30px 24px 26px;box-shadow:0 18px 30px -18px rgba(0,0,0,.6)}
+.how > div:nth-child(1){transform:rotate(-1.2deg)}
+.how > div:nth-child(2){transform:rotate(.8deg);background:var(--sticky)}
+.how > div:nth-child(3){transform:rotate(-.6deg)}
+.how .k{font-family:var(--f-hand);font-weight:700;font-size:26px;color:var(--clay-d);line-height:1}
+.how h3{font-size:21px;margin:8px 0 8px;line-height:1.15;letter-spacing:-.03em}
+.how p{font-size:15.5px;font-weight:400;color:var(--brown-m)}
+.how > div:nth-child(2) p{color:var(--brown)}
+
+/* outputs (on the board) */
+.tabs{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:36px}
+.tabs button{appearance:none;border:1px solid var(--line-d);background:rgba(247,241,230,.6);color:var(--brown);font:400 15px var(--f-display);padding:10px 18px;border-radius:999px;cursor:pointer;display:flex;gap:10px;align-items:center}
+.tabs button .mono{font-size:11.5px;opacity:.65}
+.tabs button[aria-selected="true"]{background:var(--brown);color:var(--paper);border-color:var(--brown);font-weight:600}
+.panel{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:56px;align-items:start}
+.panel-copy h3{font-size:28px;line-height:1.08;margin-bottom:14px}
+.panel-copy > p{color:var(--brown-m);font-weight:400}
+.prompt{position:relative;margin-top:28px;background:var(--paper);padding:22px 20px 18px;box-shadow:0 14px 24px -16px rgba(0,0,0,.45);transform:rotate(-.6deg)}
+.prompt .eyebrow{display:block;margin-bottom:8px;font-size:11px;color:var(--clay-d);font-weight:600}
+.prompt p{font-family:var(--f-mono);font-size:13.5px;line-height:1.65}
+.pair{display:flex;gap:28px;justify-content:center;flex-wrap:wrap}
+.pair .pol{width:min(100%,230px)}
+.pair .pol:first-child{transform:rotate(-3deg)}
+.pair .pol:last-child{transform:rotate(2.5deg)}
+.pair figcaption{font-size:21px}
+
+.carousel{min-width:0}
+.track{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 10px 22px 4px;scrollbar-width:thin}
+.slide{flex:0 0 min(78%,290px);aspect-ratio:4/5;scroll-snap-align:start;border-radius:6px;box-shadow:0 14px 24px -16px rgba(0,0,0,.5);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:22px;max-width:100%}
+.slide .n{font-family:var(--f-mono);font-size:11px;opacity:.7}
+.slide h4{font-size:24px;line-height:1.08;letter-spacing:-.035em}
+.slide p{font-size:15px;line-height:1.45;font-weight:400}
+.sl-photo{color:var(--cream);background:var(--ink)}
+.sl-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;opacity:.7;max-width:none}
+.sl-photo > *{position:relative}
+.sl-photo h4{text-shadow:0 2px 12px rgba(0,0,0,.6)}
+.sl-photo h4 em,.sl-ink h4 em{color:var(--clay)}
+.sl-sticky{background:var(--sticky);color:var(--brown)} .sl-clay{background:var(--clay);color:var(--ink)} .sl-paper{background:var(--paper);color:var(--brown)} .sl-ink{background:var(--ink);color:var(--cream)}
+.sl-clay h4 em{color:var(--ink)}
+.steps-mini{display:flex;flex-direction:column;gap:8px;font-family:var(--f-mono);font-size:12.5px}
+.steps-mini div{background:rgba(255,255,255,.55);color:var(--brown);border-radius:6px;padding:7px 10px}
+.swipe{font-family:var(--f-hand);font-weight:700;font-size:22px}
+.car-nav{display:flex;gap:10px;margin-top:22px}
+.car-nav button{appearance:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line-d);background:var(--paper);color:var(--brown);cursor:pointer;display:grid;place-items:center}
+.car-nav svg{width:18px;height:18px}
+
+.doc{position:relative;background:var(--paper);box-shadow:0 18px 30px -18px rgba(0,0,0,.5)}
+.doc-top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px 22px;border-bottom:1px solid var(--line-d);font-family:var(--f-mono);font-size:12.5px;color:var(--brown-m)}
+.doc-body{padding:6px 22px 18px}
+.beat{display:grid;grid-template-columns:70px minmax(0,1fr);gap:16px;padding:14px 0;border-bottom:1px dashed var(--line-d)}
+.beat:last-child{border-bottom:0}
+.beat .t{font-family:var(--f-mono);font-size:12.5px;color:var(--clay-d);font-weight:600;padding-top:3px;font-variant-numeric:tabular-nums}
+.beat .say{font-size:17px;font-weight:400}
+.beat .do{font-family:var(--f-mono);font-size:12px;color:var(--brown-m);margin-top:6px}
+
+/* story */
+.story{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:64px;align-items:center}
+.polaroids{position:relative;min-height:460px}
+.polaroids .pol{position:absolute;width:min(60%,250px)}
+.polaroids .pol img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover}
+.polaroids .p1{left:0;top:16px;transform:rotate(-6deg)}
+.polaroids .p2{right:2%;top:76px;transform:rotate(5deg)}
+.polaroids .sticky{position:absolute;left:-2%;bottom:-36px;width:160px;font-size:21px;transform:rotate(-4deg);z-index:4}
+.story-copy h2{font-size:clamp(30px,4vw,52px);line-height:1.02;margin-bottom:26px}
+.story-copy p{max-width:52ch;margin-bottom:16px;color:var(--muted)}
+.story-copy p.first{font-size:20px;color:var(--cream);font-weight:400}
+.sig{font-family:var(--f-hand);font-weight:700;font-size:28px;color:var(--clay)!important}
+
+/* idea-to-posted graphic */
+.gap{position:relative;margin-top:80px;padding:34px 30px 28px;box-shadow:0 24px 40px -24px rgba(0,0,0,.7)}
+.gap .tape{left:12%}
+.gap-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.gap-head h3{font-size:clamp(22px,2.6vw,30px);letter-spacing:-.035em}
+.gap-head .hand{font-size:24px}
+.gap-row{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;align-items:center;padding:9px 0}
+.gap-label{font-weight:600;font-size:15px}
+.gap-track{display:flex;gap:6px;width:100%}
+.gap-track.short{width:46%}
+.seg{border-radius:6px;padding:9px 10px;font-family:var(--f-mono);font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;color:var(--brown)}
+.s-idea{background:var(--sticky);flex:0 0 auto}
+.s-film{background:var(--paper);flex:0 0 auto}
+.s-post{background:var(--clay);color:var(--ink);flex:0 0 auto}
+.s-long{flex:1;background:repeating-linear-gradient(-45deg,rgba(42,36,32,.13) 0 9px,rgba(42,36,32,.04) 9px 18px)}
+.s-wait{flex:1;background:repeating-linear-gradient(-45deg,rgba(169,84,47,.2) 0 9px,rgba(169,84,47,.06) 9px 18px)}
+.s-claude{flex:1;background:var(--ink);color:var(--sticky)}
+.gap-row.now .gap-label{color:var(--clay-d)}
+.gap-note{position:absolute;right:28px;bottom:-26px;font-size:21px;transform:rotate(3deg);width:auto}
+
+/* modules */
+.modules{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.mod{border:1px solid var(--line);border-radius:14px;padding:24px 22px;background:var(--ink2)}
+.mod .num{font-family:var(--f-hand);font-weight:700;font-size:54px;line-height:.8;color:var(--clay)}
+.mod h3{font-size:19px;margin:14px 0 8px;line-height:1.15;letter-spacing:-.03em}
+.mod p{font-size:15.5px;color:var(--muted)}
+.pack{position:relative;margin-top:72px;display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr);gap:40px;align-items:start;padding:44px 40px}
+.pack .tape{left:18%}
+.pack h3{font-size:30px;line-height:1.08}
+.pack ul{list-style:none;margin:0;padding:0;display:grid;gap:18px}
+.pack li{display:grid;grid-template-columns:24px minmax(0,1fr);gap:12px;align-items:start;font-weight:400;color:var(--brown-m)}
+.pack li b{color:var(--brown)}
+.pack li svg{width:20px;height:20px;color:var(--clay-d);margin-top:3px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.chips span{font-family:var(--f-mono);font-size:11.5px;background:var(--paper);color:var(--brown);border-radius:999px;padding:4px 10px}
+.chips span:nth-child(3n+1){background:var(--sticky)}
+
+/* join */
+.join{position:relative;overflow:hidden}
+.join .wrap{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:56px;align-items:center;position:relative;z-index:1}
+.join h2{font-size:clamp(38px,5.4vw,76px);line-height:.98;letter-spacing:-.05em}
+.join h2 em{display:inline-block;transform:rotate(-2deg)}
+.join-sub{margin-top:18px;font-size:19px;color:var(--brown-m)}
+.join-card{position:relative;background:var(--ink);color:var(--cream);border-radius:6px;padding:34px 30px 28px;box-shadow:0 28px 44px -24px rgba(0,0,0,.7);transform:rotate(.6deg)}
+.perks{list-style:none;margin:0 0 26px;padding:0;display:grid;gap:18px}
+.perks li{display:grid;grid-template-columns:36px minmax(0,1fr);gap:12px}
+.perks .k{font-family:var(--f-hand);font-weight:700;font-size:30px;color:var(--clay);line-height:1}
+.perks b{display:block}
+.perks span:not(.k){color:var(--muted);font-size:15.5px}
+.fine{font-size:13.5px;color:var(--muted);margin-top:16px}
+.wl{display:grid;gap:12px}
+.wl .row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.wl label{display:block;font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.wl input{width:100%;font:400 16px var(--f-display);color:var(--cream);background:var(--ink2);border:1px solid var(--line);border-radius:10px;padding:13px 14px;outline:0;transition:border-color .15s ease}
+.wl input::placeholder{color:#6F685F}
+.wl input:focus{border-color:var(--clay)}
+.wl .cta{justify-content:center;width:100%;margin-top:4px}
+.wl .cta[disabled]{opacity:.6;cursor:wait}
+.wl .err{font-size:14px;color:#F0A98A}
+.wl .err a{color:var(--cream)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+@media (max-width:520px){.wl .row{grid-template-columns:minmax(0,1fr)}}
+.join .sticky{position:absolute;right:-14px;top:-30px;width:140px;font-size:21px;transform:rotate(7deg);z-index:2}
+
+.faq{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:48px}
+.faq h2{font-size:clamp(32px,4vw,52px);line-height:1}
+details{border-bottom:1px solid var(--line);padding:18px 4px}
+details:first-child{border-top:1px solid var(--line)}
+summary{cursor:pointer;font-weight:600;font-size:17px;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--clay);font-size:22px;line-height:1;font-weight:300}
+details[open] summary::after{content:"–"}
+details p{margin-top:10px;max-width:60ch;color:var(--muted)}
+
+footer{border-top:1px solid var(--line);color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;padding-block:28px 40px;font-size:13.5px}
+
+@media (max-width:960px){
+  .hero{grid-template-columns:minmax(0,1fr);min-height:0}
+  .hero-copy{padding:48px 16px 52px}
+  .hero-board{padding:56px 16px 72px}
+  .ba .pol{width:clamp(130px,38vw,220px)}
+  .panel,.story,.join .wrap,.faq,.pack,.head,.lab{grid-template-columns:minmax(0,1fr)}
+  .modules{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .how{grid-template-columns:minmax(0,1fr);max-width:520px}
+  .polaroids{min-height:420px;max-width:460px}
+  .pack{padding:32px 24px}
+  section{padding-block:72px}
+}
+@media (max-width:520px){
+  .modules{grid-template-columns:minmax(0,1fr)}
+  .pair{gap:14px;flex-wrap:nowrap}
+  .pair .pol{width:calc(50% - 7px);padding:6px 6px 32px}
+  .pair figcaption{font-size:17px}
+  .gap{padding:28px 18px 34px}
+  .gap-row{grid-template-columns:minmax(0,1fr);gap:6px}
+  .gap-track.short{width:72%}
+  .seg{padding:7px 6px;font-size:10.5px}
+  .beat{grid-template-columns:minmax(0,1fr);gap:4px}
+  .brand small{display:none}
+  .ba .pol{padding:6px 6px 32px}
+  .ba .pol figcaption{font-size:18px}
+  .arrow{width:52px;margin:0 -4px}
+  .hero-board{padding:84px 12px 48px}
+  .hero-board .sticky{width:auto;font-size:17px;right:4%;top:14px;bottom:auto;padding:8px 12px;transform:rotate(3deg)}
+  .arrow span{font-size:16px;white-space:normal}
+  .hero-board .note{font-size:20px;left:5%;top:22px}
+  .lab-sticker{right:-4px;font-size:19px}
+  .join .sticky{right:0;top:-40px;width:120px;font-size:18px}
+  .label{font-size:9px;top:6px;left:6px}
+  .sound{font-size:11px;padding:5px 9px;bottom:6px;right:6px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head><body>
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="spark" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0c.7 6.4 5.6 11.3 12 12-6.4.7-11.3 5.6-12 12-.7-6.4-5.6-11.3-12-12C6.4 11.3 11.3 6.4 12 0z"/></symbol>
+</svg>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="https://www.instagram.com/shedoesai" target="_blank" rel="noopener">shedoesai<small>The Claude Editing System</small></a>
+    <a class="cta small js-join" href="#join">Join the waitlist</a>
+  </div>
+</header>
+
+<main>
+<section class="hero" style="padding-block:0">
+  <div class="hero-copy">
+    <span class="status"><span class="dot" aria-hidden="true"></span>Waitlist open · The Claude Editing System</span>
+    <h1>Teach Claude to edit in <span class="hand">any style</span></h1>
+    <p class="lede">Build your own unique editing style, <b>customized to your brand.</b> You film, Claude edits, and it looks like you.</p>
+    <div class="hero-actions">
+      <a class="cta js-join" href="#join">Join the waitlist
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <p class="proof">Same clip on the board: my raw file, then Claude's edit.</p>
+    </div>
+  </div>
+
+  <div class="hero-board board">
+    <span class="note" aria-hidden="true">before → after</span>
+    <div class="ba">
+      <figure class="pol pol-raw">
+        <span class="tape" aria-hidden="true"></span>
+        <div class="shot">
+          <video id="v-raw" src="media/raw-claude-edit.mp4" poster="media/raw-start.jpg" autoplay muted loop playsinline preload="auto" aria-label="The raw, unedited clip"></video>
+        </div>
+        <figcaption>raw file</figcaption>
+      </figure>
+      <div class="arrow" aria-hidden="true">
+        <span>Claude edits</span>
+        <svg viewBox="0 0 110 60" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 44c18-26 52-34 90-16"/><path d="M82 16l15 12-17 8"/></svg>
+      </div>
+      <figure class="pol pol-edit">
+        <span class="tape" aria-hidden="true" style="transform:translateX(-50%) rotate(5deg)"></span>
+        <div class="shot">
+          <video id="v-edit" src="media/claude-edit.mp4" poster="media/claude-edit-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="The same clip after Claude's edit"></video>
+          <button class="sound" id="sound" type="button" aria-pressed="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4z"/><path id="snd-wave" d="M22 9l-6 6M16 9l6 6"/></svg>
+            <span id="sound-label">Sound off</span>
+          </button>
+        </div>
+        <figcaption>edited by Claude</figcaption>
+      </figure>
+    </div>
+    <div class="sticky" aria-hidden="true">0:20 of video,<br>zero editing apps</div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-inner">
+    <span>your colours <i>✦</i> your fonts <i>✦</i> your captions <i>✦</i> your pop-ups <i>✦</i> your style <i>✦</i> edited by Claude <i>✦</i></span>
+    <span>your colours <i>✦</i> your fonts <i>✦</i> your captions <i>✦</i> your pop-ups <i>✦</i> your style <i>✦</i> edited by Claude <i>✦</i></span>
+  </div>
+</div>
+
+<section id="style">
+  <div class="wrap">
+    <div class="head">
+      <h2>Won't every Claude edit look the <em>same?</em></h2>
+      <p>Only if you let it. Claude can edit in the style of the creators you love, or in a style that's only yours. Tap a style and watch the same shot change.</p>
+    </div>
+
+    <div class="lab">
+      <div class="lab-wrap">
+        <span class="sticky lab-sticker" id="lab-label">Hormozi-style</span>
+        <div class="pol">
+          <span class="tape" aria-hidden="true"></span>
+          <div class="lab-frame s-hormozi" id="lab-frame">
+            <img src="media/face-a.jpg" alt="Still of Gunhild from her reel, restyled in the selected editing style">
+            <div class="grain" aria-hidden="true"></div>
+            <div id="lab-pops" aria-hidden="true"></div>
+            <div class="cap" id="lab-cap"></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="styles" role="group" aria-label="Editing style">
+          <button type="button" data-style="hormozi" aria-pressed="true">Hormozi</button>
+          <button type="button" data-style="gary" aria-pressed="false">GaryVee</button>
+          <button type="button" data-style="ali" aria-pressed="false">Ali Abdaal</button>
+          <button type="button" data-style="koe" aria-pressed="false">Dan Koe</button>
+          <button type="button" data-style="brand" class="mine" aria-pressed="false">✦ Your brand</button>
+        </div>
+        <p class="style-desc" id="style-desc"></p>
+        <div class="brand-kit" id="brand-kit" hidden>
+          <div class="kit-row">
+            <span class="eyebrow" style="font-size:11px">Try a palette</span>
+            <div class="swatches" id="swatches">
+              <button type="button" aria-label="Clay palette" data-p="#E08A5F,#151311,#F2ECE3" style="background:#E08A5F"></button>
+              <button type="button" aria-label="Butter palette" data-p="#F3C969,#2A2420,#F7F1E6" style="background:#F3C969"></button>
+              <button type="button" aria-label="Sage palette" data-p="#9DB49A,#1E1B18,#F2ECE3" style="background:#9DB49A"></button>
+              <button type="button" aria-label="Denim palette" data-p="#7FA7C9,#151311,#F2ECE3" style="background:#7FA7C9"></button>
+            </div>
+          </div>
+          <div class="kit-row">
+            <label><input type="color" id="c-hi" value="#E08A5F"> Highlight</label>
+            <label><input type="color" id="c-bg" value="#151311"> Caption</label>
+            <label><input type="color" id="c-tx" value="#F2ECE3"> Text</label>
+            <label>Font
+              <select id="c-font">
+                <option value="display">Bold and clean</option>
+                <option value="hand">Handwritten</option>
+                <option value="mono">Typewriter</option>
+              </select></label>
+          </div>
+        </div>
+        <p class="lab-note">Previews show each look on a still from my reel. In the course you build them as real edits.</p>
+      </div>
+    </div>
+
+    <div class="how">
+      <div><span class="tape" aria-hidden="true"></span><span class="k">step 1</span><h3>Upload your brand</h3><p>Give Claude your colours and fonts once. Every caption, pop-up and title uses them from then on.</p></div>
+      <div><span class="k">step 2</span><h3>Mix what you love</h3><p>Hormozi's captions, Ali's pop-ups, Dan Koe's colours. Borrow pieces instead of copying one creator.</p></div>
+      <div><span class="tape" aria-hidden="true" style="transform:translateX(-50%) rotate(3deg)"></span><span class="k">step 3</span><h3>Save it as your style</h3><p>Your look becomes a skill in Claude, so every new video comes out looking like you.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="board" id="outputs">
+  <div class="wrap">
+    <div class="head">
+      <h2>One video. <em>Three</em> things to post.</h2>
+      <p>The reel is only the start. I'll show you how the same video becomes a carousel and the script for your next one, so one filming day keeps feeding your week.</p>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="What Claude made">
+      <button role="tab" id="t-reel" aria-selected="true" aria-controls="p-reel" type="button">The reel <span class="mono">0:20</span></button>
+      <button role="tab" id="t-car" aria-selected="false" aria-controls="p-car" type="button">The carousel <span class="mono">5 slides</span></button>
+      <button role="tab" id="t-script" aria-selected="false" aria-controls="p-script" type="button">The next script <span class="mono">~40 sec</span></button>
+    </div>
+
+    <div class="panel" role="tabpanel" id="p-reel" aria-labelledby="t-reel">
+      <div class="panel-copy">
+        <h3>I pick, Claude renders</h3>
+        <p>Claude did the colour grading, made the logos pop and put text behind me. Before anything renders, I see three versions of each effect side by side and tick the one I want.</p>
+        <div class="prompt"><span class="tape" aria-hidden="true"></span><span class="eyebrow">What I asked for</span><p>Colour grade it, make the logos pop when I say them and put text behind me. Show me three versions of each effect before you render.</p></div>
+      </div>
+      <div class="pair">
+        <figure class="pol">
+          <span class="tape" aria-hidden="true"></span>
+          <div class="shot"><span class="label">Preview</span><img src="media/picker.jpg" alt="Effect preview screen: three versions of each effect with tick boxes"></div>
+          <figcaption>three versions, I tick one</figcaption>
+        </figure>
+        <figure class="pol">
+          <span class="tape" aria-hidden="true" style="transform:translateX(-50%) rotate(4deg)"></span>
+          <div class="shot"><span class="label on">Final</span><img src="media/claude-edit-poster.jpg" alt="Finished reel with Edited by Claude title and captions"></div>
+          <figcaption>rendered with my picks</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="panel" role="tabpanel" id="p-car" aria-labelledby="t-car" hidden>
+      <div class="panel-copy">
+        <h3>The same video as a carousel</h3>
+        <p>Claude reads the transcript, pulls out the points worth saving and lays them out as slides in my style, with a frame from the video on the cover.</p>
+        <div class="prompt"><span class="tape" aria-hidden="true"></span><span class="eyebrow">What I asked for</span><p>Turn this video into a 5-slide carousel. Cover uses a frame of me. One idea per slide. End on my comment keyword.</p></div>
+        <div class="car-nav">
+          <button type="button" id="car-prev" aria-label="Previous slide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+          <button type="button" id="car-next" aria-label="Next slide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+        </div>
+      </div>
+      <div class="carousel">
+        <div class="track" id="track" tabindex="0" aria-label="Carousel slides">
+          <div class="slide sl-photo"><img src="media/face-b.jpg" alt=""><span class="n">1 / 5</span><h4>This entire video was edited by <em>Claude</em></h4><span class="swipe">swipe →</span></div>
+          <div class="slide sl-sticky"><span class="n">2 / 5</span><h4>What Claude <em>did</em></h4><div class="steps-mini"><div>colour grading</div><div>logos that pop</div><div>text behind me</div></div></div>
+          <div class="slide sl-ink"><span class="n">3 / 5</span><h4>No editing app. <em>No timeline.</em></h4><p>I describe the edit in plain words. Claude builds it.</p></div>
+          <div class="slide sl-paper"><span class="n">4 / 5</span><h4>I pick every effect <em>before it renders</em></h4><div class="steps-mini"><div>1 · upload my video</div><div>2 · tick the effect I want</div><div>3 · Claude renders it</div></div></div>
+          <div class="slide sl-clay"><span class="n">5 / 5</span><h4>Want the <em>free guide?</em></h4><p>Comment “AI EDIT” and I'll send it over.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" role="tabpanel" id="p-script" aria-labelledby="t-script" hidden>
+      <div class="panel-copy">
+        <h3>And what to film next</h3>
+        <p>Claude reads the comments under the reel and writes the follow-up in my voice, with what to say and what goes on screen.</p>
+        <div class="prompt"><span class="tape" aria-hidden="true"></span><span class="eyebrow">What I asked for</span><p>Write a follow-up to this video in my voice. Under 45 seconds. Answer the question people ask most in the comments.</p></div>
+      </div>
+      <div class="doc">
+        <span class="tape" aria-hidden="true"></span>
+        <div class="doc-top"><span>any-editing-style.md</span><span>draft · 5 beats</span></div>
+        <div class="doc-body">
+          <div class="beat"><span class="t">0:00</span><div><p class="say">“Claude can copy any editing style. Here's the trick.”</p><p class="do">ON SCREEN · four identical edits side by side</p></div></div>
+          <div class="beat"><span class="t">0:03</span><div><p class="say">“Every big creator has a style you'd know anywhere.”</p><p class="do">LABELS · HORMOZI, ALI ABDAAL, DAN KOE fly in</p></div></div>
+          <div class="beat"><span class="t">0:10</span><div><p class="say">“Claude can edit like all of them. But the trick is not to copy one. Mix them.”</p><p class="do">MY SHOT · flicks through all three looks</p></div></div>
+          <div class="beat"><span class="t">0:22</span><div><p class="say">“I saved mine as a skill in Claude, so every video looks like me.”</p><p class="do">LABEL · YOUR STYLE on my own look</p></div></div>
+          <div class="beat"><span class="t">0:30</span><div><p class="say">“Comment [KEYWORD] and I'll add you to the waitlist.”</p><p class="do">CAPTION · keyword, soft pop</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="story">
+  <div class="wrap story">
+    <div class="polaroids" aria-hidden="true">
+      <figure class="pol p1"><span class="tape"></span><img src="media/face-b.jpg" alt=""><figcaption>studio day</figcaption></figure>
+      <figure class="pol p2"><span class="tape" style="transform:translateX(-50%) rotate(5deg)"></span><img src="media/claude-edit-poster.jpg" alt=""><figcaption>edited by Claude</figcaption></figure>
+      <div class="sticky">idea → posted while it still feels fresh</div>
+    </div>
+    <div class="story-copy">
+      <p class="eyebrow" style="margin-bottom:14px">Why I made this</p>
+      <h2>I hated waiting <em>days</em> to post</h2>
+      <p class="first">Hi, I'm Gunhild. For my first year as a creator I edited every single video myself, so I know exactly how long it takes.</p>
+      <p>Then I started working with editors. It helped, but the gap from idea to a posted video was still days. And I'm terrible at waiting.</p>
+      <p>Now Claude edits my videos. I preview every effect, pick the ones I like, and post while the idea still feels fresh. This course is that exact process, with the setup files I use, so you don't start from a blank chat.</p>
+      <p class="sig">Gunhild, @shedoesai</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="gap board">
+      <span class="tape" aria-hidden="true"></span>
+      <div class="gap-head"><h3>From idea to <em>posted</em></h3><span class="hand">the part this course shrinks</span></div>
+      <div class="gap-row">
+        <span class="gap-label">Editing it myself</span>
+        <div class="gap-track"><span class="seg s-idea">idea</span><span class="seg s-film">film</span><span class="seg s-long">edit, edit, edit, export</span><span class="seg s-post">post</span></div>
+      </div>
+      <div class="gap-row">
+        <span class="gap-label">With an editor</span>
+        <div class="gap-track"><span class="seg s-idea">idea</span><span class="seg s-film">film</span><span class="seg s-wait">send · wait · feedback · wait</span><span class="seg s-post">post</span></div>
+      </div>
+      <div class="gap-row now">
+        <span class="gap-label">With Claude</span>
+        <div class="gap-track short"><span class="seg s-idea">idea</span><span class="seg s-film">film</span><span class="seg s-claude">Claude edits ✦</span><span class="seg s-post">post</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="course" style="padding-top:24px">
+  <div class="wrap">
+    <div class="head">
+      <h2>What you'll <em>learn</em></h2>
+      <p>Four short modules in the order you'll actually do them. Built for people who have never opened an editing app and don't want to.</p>
+    </div>
+    <div class="modules">
+      <div class="mod"><div class="num">1</div><h3>Set up once</h3><p>Get Claude ready to edit video, and learn what makes a video easy to edit: framing, light and sound.</p></div>
+      <div class="mod"><div class="num">2</div><h3>Your first reel</h3><p>Hand Claude your video and get a finished reel back. Follow along with my footage or your own.</p></div>
+      <div class="mod"><div class="num">3</div><h3>Build your own style</h3><p>Upload your brand palette and fonts, borrow from the creators you love, and save it as your own editing style.</p></div>
+      <div class="mod"><div class="num">4</div><h3>Fix, export, repurpose</h3><p>Ask for changes in plain words, export for Instagram and TikTok, then turn the video into a carousel and your next script.</p></div>
+    </div>
+
+    <div class="pack board">
+      <span class="tape" aria-hidden="true"></span>
+      <h3>Comes with my <em>student pack</em></h3>
+      <ul>
+        <li><svg aria-hidden="true"><use href="#spark"/></svg><div><b>My editing setup for Claude.</b> The instructions I use, ready to copy, so Claude edits your way from the first try.</div></li>
+        <li><svg aria-hidden="true"><use href="#spark"/></svg><div><b>Style starters.</b> Ready-made looks to start from and mix, plus a template for your own brand style.
+          <div class="chips"><span>Hormozi-style</span><span>GaryVee-style</span><span>Ali Abdaal-style</span><span>Dan Koe-style</span><span>your brand</span></div></div></li>
+        <li><svg aria-hidden="true"><use href="#spark"/></svg><div><b>An effects library you can preview.</b> Watch each effect on a real clip, tick the ones you want, then render.
+          <div class="chips"><span>captions</span><span>word highlight</span><span>logo pop</span><span>colour grade</span><span>text behind you</span><span>punch zoom</span><span>film look</span><span>3D flip</span></div></div></li>
+        <li><svg aria-hidden="true"><use href="#spark"/></svg><div><b>Prompts for carousels and scripts.</b> The exact wording I use to get a week of posts out of one video.</div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="join board" id="join">
+  <div class="wrap">
+    <div><p class="eyebrow" style="margin-bottom:14px">The Claude Editing System</p><h2>Get in before the <em>doors open</em></h2><p class="join-sub">From raw video to your own style.</p></div>
+    <div class="join-card">
+      <div class="sticky" aria-hidden="true">waitlist gets it first!</div>
+      <ul class="perks">
+        <li><span class="k">1</span><div><b>You hear first</b><span>The waitlist gets the launch email before I post about it anywhere.</span></div></li>
+        <li><span class="k">2</span><div><b>Waitlist-only price</b><span>The lowest price this course will ever have, only for people on this list.</span></div></li>
+      </ul>
+      <form class="wl" id="wl" novalidate>
+        <div class="row">
+          <div><label for="wl-name">First name</label><input id="wl-name" name="first_name" type="text" autocomplete="given-name" placeholder="Your name" required></div>
+          <div><label for="wl-email">Email</label><input id="wl-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required></div>
+        </div>
+        <div class="hp" aria-hidden="true"><label for="wl-co">Company</label><input id="wl-co" name="company" type="text" tabindex="-1" autocomplete="off"></div>
+        <button class="cta" type="submit" id="wl-btn">Join the waitlist
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <p class="err" id="wl-err" role="alert" hidden></p>
+      </form>
+      <p class="fine">No spam, unsubscribe anytime.</p>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap faq">
+    <h2>Questions?</h2>
+    <div>
+      <details><summary>Won't my videos look like everyone else's?</summary><p>Not once you've built your style. You give Claude your colours, fonts and the looks you like, and save it, so your edits look like you and nobody else.</p></details>
+      <details><summary>Do I need to know how to edit?</summary><p>No. You'll never touch a timeline. You film, then describe what you want in plain words, and Claude does the editing.</p></details>
+      <details><summary>What do I need to film?</summary><p>Whatever you film with now, a phone or a camera. I'll show you the few things that make the biggest difference to the final edit.</p></details>
+      <details><summary>Which Claude plan do I need?</summary><p>A paid Claude plan. Module 1 walks you through the exact setup step by step.</p></details>
+      <details><summary>When does it open?</summary><p>Soon. People on the waitlist get the email first, with the waitlist price.</p></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 shedoesai</span>
+    <span>Not affiliated with Anthropic or any creator named on this page.</span>
+  </div>
+</footer>
+
+<script>
+// Waitlist: our own form posts to /api/subscribe (a Vercel function that adds the person to beehiiv),
+// then sends them to the thank-you page with their first name. If that fails, the hosted beehiiv form is the fallback.
+const HOSTED_FORM = "https://subscribe-forms.beehiiv.com/5f39e1e3-9737-4e6a-8ac1-00fab0608023";
+const wl = document.getElementById("wl"), wlBtn = document.getElementById("wl-btn"), wlErr = document.getElementById("wl-err");
+function wlFail(msg) {
+  wlErr.innerHTML = msg; wlErr.hidden = false;
+  wlBtn.disabled = false;
+}
+wl.addEventListener("submit", async e => {
+  e.preventDefault();
+  const name = wl.first_name.value.trim(), email = wl.email.value.trim();
+  wlErr.hidden = true;
+  if (!name) return wlFail("Add your first name.");
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return wlFail("That email doesn't look right.");
+  wlBtn.disabled = true;
+  try {
+    const r = await fetch("/api/subscribe", { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ first_name: name, email, company: wl.company.value }) });
+    if (!r.ok) throw new Error(r.status);
+    location.href = "/thanks?n=" + encodeURIComponent(name.split(/\s+/)[0]);
+  } catch (_) {
+    wlFail('Something went wrong on my end. <a href="' + HOSTED_FORM + '" target="_blank" rel="noopener">Join here instead</a>.');
+  }
+});
+
+// Hero: keep the raw clip in step with the edit so before/after match
+const vEdit = document.getElementById("v-edit"), vRaw = document.getElementById("v-raw"), soundBtn = document.getElementById("sound");
+vEdit.addEventListener("timeupdate", () => {
+  if (Math.abs(vRaw.currentTime - vEdit.currentTime) > 0.35) vRaw.currentTime = vEdit.currentTime;
+});
+let soundOn = false;
+soundBtn.addEventListener("click", () => {
+  soundOn = !soundOn;
+  vEdit.muted = !soundOn; vEdit.play().catch(() => {});
+  soundBtn.setAttribute("aria-pressed", soundOn);
+  document.getElementById("sound-label").textContent = soundOn ? "Sound on" : "Sound off";
+  document.getElementById("snd-wave").setAttribute("d", soundOn ? "M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14" : "M22 9l-6 6M16 9l6 6");
+});
+
+// Style lab
+const bulb = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg>';
+const star = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.9L22 9.6l-5.5 4.8L18.2 22 12 18.3 5.8 22l1.7-7.6L2 9.6l7.1-.7z"/></svg>';
+const STYLES = {
+  hormozi: { label: "Hormozi-style",
+    cap: '<div class="cap-h">This is <span>my</span> style</div>', pops: "",
+    desc: "<b>Loud and punchy.</b> Huge word-by-word captions, the key word in yellow, a zoom on every beat." },
+  gary: { label: "GaryVee-style",
+    cap: '<div class="cap-g"><b>This is my style</b><small>raw · fast · no fluff</small></div>', pops: "",
+    desc: "<b>Raw and fast.</b> Black caption bars, quick cuts and a little yellow label for the point you're making." },
+  ali: { label: "Ali Abdaal-style",
+    cap: '<div class="cap-a"><span class="ic">' + bulb + '</span><span><b>This is my style</b><small>soft, warm, friendly</small></span></div>',
+    pops: '<span class="pop" style="top:16%;right:9%;background:#FFE3B8;color:#C77A16">' + star + '</span><span class="pop" style="top:34%;left:8%;background:#D9ECFF;color:#3C7BC0">' + bulb + '</span>',
+    desc: "<b>Soft and warm.</b> Pastel colours, rounded text cards and little icons popping in beside you." },
+  koe: { label: "Dan Koe-style",
+    cap: '<div class="cap-d">this is my style<span class="cur"></span></div>', pops: "",
+    desc: "<b>Minimal and moody.</b> Black and white with grain, one clean line of text typing on." },
+  brand: { label: "✦ your brand",
+    cap: '<div class="cap-b"><span>This</span><span>is</span><span class="hi">my</span><span>style</span></div>', pops: "",
+    desc: "<b>Only yours.</b> Your colours and your font on every caption. Try a palette or pick your own." }
+};
+const FONTS = { display: ['var(--f-display)', 800], hand: ['var(--f-hand)', 700], mono: ['var(--f-mono)', 600] };
+const frame = document.getElementById("lab-frame");
+const styleBtns = [...document.querySelectorAll("[data-style]")];
+const kit = document.getElementById("brand-kit");
+function applyBrand() {
+  const [font, weight] = FONTS[document.getElementById("c-font").value];
+  frame.style.setProperty("--b-hi", document.getElementById("c-hi").value);
+  frame.style.setProperty("--b-bg", document.getElementById("c-bg").value);
+  frame.style.setProperty("--b-text", document.getElementById("c-tx").value);
+  frame.style.setProperty("--b-font", font);
+  frame.style.setProperty("--b-weight", weight);
+}
+function setStyle(key) {
+  const s = STYLES[key];
+  frame.className = "lab-frame s-" + key;
+  document.getElementById("lab-label").textContent = s.label;
+  document.getElementById("lab-cap").innerHTML = s.cap;
+  document.getElementById("lab-pops").innerHTML = s.pops;
+  document.getElementById("style-desc").innerHTML = s.desc;
+  styleBtns.forEach(b => b.setAttribute("aria-pressed", b.dataset.style === key));
+  kit.hidden = key !== "brand";
+}
+styleBtns.forEach(b => b.addEventListener("click", () => setStyle(b.dataset.style)));
+["c-hi","c-bg","c-tx","c-font"].forEach(id => document.getElementById(id).addEventListener("input", applyBrand));
+document.querySelectorAll("#swatches button").forEach(b => b.addEventListener("click", () => {
+  const [hi, bg, tx] = b.dataset.p.split(",");
+  document.getElementById("c-hi").value = hi; document.getElementById("c-bg").value = bg; document.getElementById("c-tx").value = tx;
+  applyBrand();
+}));
+applyBrand(); setStyle("hormozi");
+
+// Tabs
+const tabs = [...document.querySelectorAll('[role="tab"]')];
+tabs.forEach(t => t.addEventListener("click", () => {
+  tabs.forEach(o => {
+    const sel = o === t;
+    o.setAttribute("aria-selected", sel);
+    document.getElementById(o.getAttribute("aria-controls")).hidden = !sel;
+  });
+}));
+
+// Carousel arrows
+const track = document.getElementById("track");
+const step = () => track.querySelector(".slide").getBoundingClientRect().width + 18;
+document.getElementById("car-prev").addEventListener("click", () => track.scrollBy({left: -step(), behavior: "smooth"}));
+document.getElementById("car-next").addEventListener("click", () => track.scrollBy({left: step(), behavior: "smooth"}));
+</script>
+
+</body></html>

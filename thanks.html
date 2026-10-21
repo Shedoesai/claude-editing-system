@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>You're on the list | shedoesai</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#151311">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;800&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Thank-you page in the same "Dark + Moodboard" look as the waitlist page:
+   their name up top, then three pinned notes for what happens next, then a share strip. */
+:root{
+  --ink:#151311; --ink2:#1E1B18; --cream:#F2ECE3; --muted:#A9A196; --clay:#E08A5F; --clay-d:#A9542F;
+  --board:#E9E0D1; --paper:#F7F1E6; --sticky:#F3C969; --brown:#2A2420; --brown-m:#6B6157;
+  --line:rgba(242,236,227,.14);
+  --f-display:"Sora",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-hand:"Caveat","Comic Sans MS",cursive;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  --wrap:1080px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ink);color:var(--cream);font-family:var(--f-display);font-weight:300;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.wrap{max-width:var(--wrap);margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-weight:800;margin:0;letter-spacing:-.04em;text-wrap:balance}
+p{margin:0}
+a{color:inherit}
+b{font-weight:600}
+em{font-family:var(--f-hand);font-style:normal;font-weight:700;letter-spacing:0;color:var(--clay);font-size:1.25em;line-height:.9}
+.eyebrow{font-family:var(--f-mono);font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted)}
+:focus-visible{outline:2px solid var(--clay);outline-offset:3px;border-radius:6px}
+.board{background-color:var(--board);background-image:radial-gradient(rgba(0,0,0,.07) 1px,transparent 1px);background-size:22px 22px;color:var(--brown)}
+.board em{color:var(--clay-d)}
+.tape{position:absolute;z-index:3;top:-13px;left:50%;width:86px;height:26px;background:rgba(232,214,170,.85);transform:translateX(-50%) rotate(-4deg);clip-path:polygon(3% 8%,10% 0,22% 7%,36% 0,50% 6%,63% 0,77% 7%,90% 0,100% 9%,97% 50%,100% 92%,88% 100%,75% 93%,61% 100%,48% 94%,34% 100%,21% 93%,8% 100%,0 90%,3% 50%)}
+.btn{display:inline-flex;align-items:center;gap:10px;background:var(--clay);color:var(--ink);text-decoration:none;font-weight:600;font-size:15px;padding:13px 22px;border-radius:999px;border:0;cursor:pointer;font-family:var(--f-display)}
+.btn:hover{background:#EB9C74}
+.btn svg{width:17px;height:17px}
+
+header{border-bottom:1px solid var(--line)}
+header .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-block:16px}
+.brand{font-weight:800;font-size:19px;text-decoration:none;letter-spacing:-.04em}
+.back{font-size:14px;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--cream)}
+
+.top{padding:clamp(64px,12vh,130px) 0 clamp(56px,10vh,110px);text-align:center;position:relative}
+.top h1{font-size:clamp(46px,7vw,100px);line-height:1;letter-spacing:-.05em;margin-top:22px}
+.top h1 em{display:inline-block;transform:rotate(-2deg)}
+.top .sub{margin:22px auto 0;max-width:44ch;font-size:clamp(17px,1.5vw,20px);color:var(--muted)}
+.top .sticky{position:absolute;right:max(16px,8%);top:40px;background:var(--sticky);color:var(--brown);font-family:var(--f-hand);font-weight:700;font-size:22px;line-height:1.1;padding:12px 16px;transform:rotate(6deg);box-shadow:0 12px 20px -12px rgba(0,0,0,.5)}
+
+.next{padding:clamp(64px,10vh,104px) 0}
+.next h2{font-size:clamp(32px,3.8vw,48px);line-height:1.05;margin-bottom:44px}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.steps li{position:relative;background:var(--paper);padding:30px 24px 26px;box-shadow:0 18px 30px -18px rgba(0,0,0,.45)}
+.steps li:nth-child(1){transform:rotate(-1.2deg)}
+.steps li:nth-child(2){transform:rotate(.8deg);background:var(--sticky)}
+.steps li:nth-child(3){transform:rotate(-.6deg)}
+.steps .n{font-family:var(--f-hand);font-weight:700;font-size:30px;color:var(--clay-d);line-height:1}
+.steps h3{font-size:21px;margin:8px 0 8px;line-height:1.15;letter-spacing:-.03em}
+.steps p{font-size:15.5px;font-weight:400;color:var(--brown-m)}
+.steps li:nth-child(2) p{color:var(--brown)}
+.steps .tip{margin-top:10px;font-size:14px}
+.steps .tip b{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--clay-d);display:block}
+.steps .btn{margin-top:16px;font-size:14px;padding:10px 18px}
+
+.share .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;align-items:center;padding-block:clamp(56px,9vh,96px)}
+.share h2{font-size:clamp(30px,3.4vw,44px);line-height:1.06}
+.share p{margin-top:10px;color:var(--muted);max-width:44ch}
+.link{display:flex;align-items:center;gap:10px;padding:8px 8px 8px 18px;border:1px solid var(--line);border-radius:999px;min-width:0}
+.link code{font:500 14.5px var(--f-mono);color:var(--cream);user-select:all;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+
+footer{border-top:1px solid var(--line);color:var(--muted)}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;padding-block:28px 40px;font-size:13.5px}
+
+@media (max-width:860px){
+  .steps{grid-template-columns:minmax(0,1fr);max-width:520px}
+  .share .wrap{grid-template-columns:minmax(0,1fr)}
+  .top .sticky{position:static;display:inline-block;margin-bottom:8px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head><body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="/">shedoesai</a>
+    <a class="back" href="/">← The Claude Editing System</a>
+  </div>
+</header>
+
+<main>
+<section class="top">
+  <div class="wrap">
+    <div class="sticky" aria-hidden="true">you're in!</div>
+    <p class="eyebrow">Thank you so much</p>
+    <h1>You're on the list<span id="who"></span>.</h1>
+    <p class="sub">When the course opens, you hear first, before I post about it anywhere, and you get the waitlist-only price.</p>
+  </div>
+</section>
+
+<section class="next board">
+  <div class="wrap">
+    <h2>What to do <em>next</em></h2>
+    <ol class="steps">
+      <li><span class="tape" aria-hidden="true"></span><span class="n">01</span><h3>Look for my email</h3><p>The course news comes by email. If you can't find anything from me, check Promotions or Spam.</p></li>
+      <li><span class="n">02</span><h3>Move me to your main inbox</h3><p>So the launch email lands where you'll see it.</p>
+        <p class="tip"><b>Gmail</b>Drag my email into the Primary tab and say yes when it asks about future emails.</p>
+        <p class="tip"><b>Other apps</b>Add me to your contacts.</p></li>
+      <li><span class="tape" aria-hidden="true" style="transform:translateX(-50%) rotate(3deg)"></span><span class="n">03</span><h3>Follow along</h3><p>I share my Claude edits on Instagram while I build the course.</p>
+        <a class="btn" href="https://www.instagram.com/shedoesai" target="_blank" rel="noopener">Follow @shedoesai</a></li>
+    </ol>
+  </div>
+</section>
+
+<section class="share">
+  <div class="wrap">
+    <div>
+      <h2>Know a creator who'd <em>want this?</em></h2>
+      <p>Send them the page. They get the same early access and waitlist price as you.</p>
+    </div>
+    <div class="link"><code id="url"></code><button class="btn" type="button" id="copy">Copy link</button></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 shedoesai</span>
+    <span>Not affiliated with Anthropic or any creator named on this site.</span>
+  </div>
+</footer>
+
+<script>
+// Their first name comes from the link the waitlist form sends them on with (?n=Name).
+let name = new URLSearchParams(location.search).get("n") || "";
+name = name.trim().split(/\s+/)[0].replace(/[^\p{L}\p{M}'-]/gu, "").slice(0, 24);
+if (name) {
+  name = name.charAt(0).toUpperCase() + name.slice(1);
+  const who = document.getElementById("who");
+  who.append(", ");
+  const em = document.createElement("em"); em.textContent = name; who.append(em);
+}
+
+// Share link: the site's own address, so it works on any domain.
+const pageUrl = location.origin + "/";
+document.getElementById("url").textContent = pageUrl.replace(/^https?:\/\//, "").replace(/\/$/, "");
+document.getElementById("copy").addEventListener("click", async e => {
+  try { await navigator.clipboard.writeText(pageUrl); e.target.textContent = "Copied"; setTimeout(() => e.target.textContent = "Copy link", 1600); }
+  catch (_) { const r = document.createRange(); r.selectNodeContents(document.getElementById("url")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+});
+</script>
+</body></html>
