@@ -69,8 +69,11 @@ header .wrap{display:flex;justify-content:space-between;align-items:center;gap:1
 .hero h1 .hand{font-size:1.3em;display:inline-block;transform:rotate(-2deg);line-height:.8}
 .lede{font-size:clamp(18px,1.55vw,21px);max-width:34ch;color:var(--muted)}
 .lede b{color:var(--cream);font-weight:600}
-.hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:16px 22px;margin-top:34px}
-.proof{font-size:14px;max-width:24ch;line-height:1.45;color:var(--muted)}
+.wl-hero{margin-top:32px;max-width:560px}
+.hero-row{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr) auto;gap:8px}
+.wl.wl-hero .cta{width:auto;margin:0;white-space:nowrap}
+.proof{font-size:14px;line-height:1.45;color:var(--muted)}
+@media (max-width:640px){.hero-row{grid-template-columns:minmax(0,1fr)}.wl.wl-hero .cta{width:100%;justify-content:center}}
 
 .hero-board{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:64px 24px}
 .ba{position:relative;display:flex;align-items:center;justify-content:center;gap:0;width:100%;max-width:580px}
@@ -354,11 +357,17 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
     <span class="status"><span class="dot" aria-hidden="true"></span>Waitlist open · The Claude Editing System</span>
     <h1>Teach Claude to edit in <span class="hand">any style</span></h1>
     <p class="lede">Build your own unique editing style, <b>customized to your brand.</b> You film, Claude edits, and it looks like you.</p>
-    <div class="hero-actions">
-      <a class="cta js-join" href="#join">Join the waitlist
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      <p class="proof">Same clip on the board: my raw file, then Claude's edit.</p>
-    </div>
+    <form class="wl wl-hero" novalidate>
+      <div class="hero-row">
+        <input name="first_name" type="text" autocomplete="given-name" placeholder="First name" aria-label="First name" required>
+        <input name="email" type="email" autocomplete="email" inputmode="email" placeholder="Your email" aria-label="Email" required>
+        <button class="cta" type="submit">Join the waitlist
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      </div>
+      <div class="hp" aria-hidden="true"><input name="company" type="text" tabindex="-1" autocomplete="off"></div>
+      <p class="err" role="alert" hidden></p>
+      <p class="proof">Free to join, no spam. Same clip on the board: my raw file, then Claude's edit.</p>
+    </form>
   </div>
 
   <div class="hero-board board">
@@ -610,15 +619,15 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
         <li><span class="k">1</span><div><b>You hear first</b><span>The waitlist gets the launch email before I post about it anywhere.</span></div></li>
         <li><span class="k">2</span><div><b>Waitlist-only price</b><span>The lowest price this course will ever have, only for people on this list.</span></div></li>
       </ul>
-      <form class="wl" id="wl" novalidate>
+      <form class="wl" novalidate>
         <div class="row">
           <div><label for="wl-name">First name</label><input id="wl-name" name="first_name" type="text" autocomplete="given-name" placeholder="Your name" required></div>
           <div><label for="wl-email">Email</label><input id="wl-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" required></div>
         </div>
         <div class="hp" aria-hidden="true"><label for="wl-co">Company</label><input id="wl-co" name="company" type="text" tabindex="-1" autocomplete="off"></div>
-        <button class="cta" type="submit" id="wl-btn">Join the waitlist
+        <button class="cta" type="submit">Join the waitlist
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-        <p class="err" id="wl-err" role="alert" hidden></p>
+        <p class="err" role="alert" hidden></p>
       </form>
       <p class="fine">No spam, unsubscribe anytime.</p>
     </div>
@@ -650,26 +659,32 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 // Waitlist: our own form posts to /api/subscribe (a Vercel function that adds the person to beehiiv),
 // then sends them to the thank-you page with their first name. If that fails, the hosted beehiiv form is the fallback.
 const HOSTED_FORM = "https://subscribe-forms.beehiiv.com/5f39e1e3-9737-4e6a-8ac1-00fab0608023";
-const wl = document.getElementById("wl"), wlBtn = document.getElementById("wl-btn"), wlErr = document.getElementById("wl-err");
-function wlFail(msg) {
-  wlErr.innerHTML = msg; wlErr.hidden = false;
-  wlBtn.disabled = false;
-}
-wl.addEventListener("submit", async e => {
+// Header button: jump to the sign-up form at the top and put the cursor in it.
+document.querySelectorAll(".js-join").forEach(a => a.addEventListener("click", e => {
   e.preventDefault();
-  const name = wl.first_name.value.trim(), email = wl.email.value.trim();
-  wlErr.hidden = true;
-  if (!name) return wlFail("Add your first name.");
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return wlFail("That email doesn't look right.");
-  wlBtn.disabled = true;
-  try {
-    const r = await fetch("/api/subscribe", { method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ first_name: name, email, company: wl.company.value }) });
-    if (!r.ok) throw new Error(r.status);
-    location.href = "/thanks?n=" + encodeURIComponent(name.split(/\s+/)[0]);
-  } catch (_) {
-    wlFail('Something went wrong on my end. <a href="' + HOSTED_FORM + '" target="_blank" rel="noopener">Join here instead</a>.');
-  }
+  const f = document.querySelector(".wl-hero");
+  f.scrollIntoView({ behavior: "smooth", block: "center" });
+  setTimeout(() => f.first_name.focus({ preventScroll: true }), 400);
+}));
+document.querySelectorAll("form.wl").forEach(form => {
+  const btn = form.querySelector('button[type="submit"]'), err = form.querySelector(".err");
+  const fail = msg => { err.innerHTML = msg; err.hidden = false; btn.disabled = false; };
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    const name = form.first_name.value.trim(), email = form.email.value.trim();
+    err.hidden = true;
+    if (!name) return fail("Add your first name.");
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fail("That email doesn't look right.");
+    btn.disabled = true;
+    try {
+      const r = await fetch("/api/subscribe", { method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ first_name: name, email, company: form.company.value }) });
+      if (!r.ok) throw new Error(r.status);
+      location.href = "/thanks?n=" + encodeURIComponent(name.split(/\s+/)[0]);
+    } catch (_) {
+      fail('Something went wrong on my end. <a href="' + HOSTED_FORM + '" target="_blank" rel="noopener">Join here instead</a>.');
+    }
+  });
 });
 
 // Hero: keep the raw clip in step with the edit so before/after match
