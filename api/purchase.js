@@ -8,6 +8,7 @@
 // Webhook URL for either: https://www.shedoesai.com/api/purchase
 const crypto = require("crypto");
 const { addToList } = require("../lib/email-list");
+const { sendWelcomeOnce } = require("../lib/welcome");
 
 module.exports = async (req, res) => {
   if (req.method !== "POST") return res.status(405).json({ ok: false });
@@ -22,6 +23,8 @@ module.exports = async (req, res) => {
 
   try {
     const ok = await addToList({ email: buyer.email, firstName: buyer.firstName, tag: process.env.BUYER_TAG || "course-buyer", source: buyer.source, welcomeEmail: false });
+    // Course welcome email with a login link. Stripe only; sent once even when Stripe retries this webhook.
+    if (buyer.sessionId) await sendWelcomeOnce(req, buyer.sessionId).catch(err => console.error("welcome email error", err));
     // A non-2xx makes the provider retry later, which is what we want if tagging failed.
     return res.status(ok ? 200 : 502).json({ ok });
   } catch (err) {
@@ -48,7 +51,7 @@ function fromStripe(raw, header) {
   const s = (event.data && event.data.object) || {};
   if (event.type !== "checkout.session.completed" || s.payment_status !== "paid") return {};
   const d = s.customer_details || {};
-  return buyerFrom(d.email || s.customer_email, d.name, "stripe");
+  return { ...buyerFrom(d.email || s.customer_email, d.name, "stripe"), sessionId: s.id };
 }
 
 function fromLemonSqueezy(raw, given) {
