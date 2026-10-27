@@ -2,5 +2,8 @@
   "cleanUrls": true,
   "redirects": [
     { "source": "/", "destination": "/editing", "permanent": false }
+  ],
+  "rewrites": [
+    { "source": "/editing/course", "destination": "/api/course" }
   ]
 }

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Log in | The Claude Editing System</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#151311">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;800&family=Caveat:wght@700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Login for students, in the site's "Dark + Moodboard" look: one pinned card with an email field. No passwords. */
+:root{
+  --ink:#151311; --ink2:#1E1B18; --cream:#F2ECE3; --muted:#A9A196; --clay:#E08A5F; --clay-d:#A9542F;
+  --paper:#F7F1E6; --brown:#2A2420; --brown-m:#6B6157; --board:#E9E0D1; --line:rgba(242,236,227,.14);
+  --f-display:"Sora",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-hand:"Caveat","Comic Sans MS",cursive;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{height:100%}
+body{min-height:100%}
+body{margin:0;background:var(--ink);color:var(--cream);font-family:var(--f-display);font-weight:300;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column}
+.wrap{width:100%;max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{border-bottom:1px solid var(--line)}
+header .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-block:16px}
+.brand{font-weight:800;font-size:19px;text-decoration:none;letter-spacing:-.04em;color:inherit}
+.back{font-size:14px;color:var(--muted);text-decoration:none}
+main{flex:1;display:grid;place-items:center;padding-block:clamp(40px,10vh,96px);
+  background-color:var(--board);background-image:radial-gradient(rgba(0,0,0,.07) 1px,transparent 1px);background-size:22px 22px}
+.card{position:relative;width:min(100%,440px);background:var(--paper);color:var(--brown);padding:40px 30px 30px;transform:rotate(-.6deg);box-shadow:0 22px 40px -22px rgba(0,0,0,.5);display:grid;gap:16px}
+.tape{position:absolute;top:-13px;left:50%;width:86px;height:26px;background:rgba(232,214,170,.9);transform:translateX(-50%) rotate(-4deg)}
+.eyebrow{font-family:var(--f-mono);font-size:12px;text-transform:uppercase;letter-spacing:.14em;color:var(--brown-m)}
+h1{font-weight:800;letter-spacing:-.04em;margin:0;font-size:clamp(28px,4vw,36px);line-height:1.05;text-wrap:balance}
+h1 em{font-family:var(--f-hand);font-style:normal;color:var(--clay-d);font-size:1.2em;letter-spacing:0}
+p{margin:0}
+.sub{color:var(--brown-m);font-size:15px}
+form{display:grid;gap:10px}
+label{font-size:14px;font-weight:600}
+input[type=email]{font:inherit;font-size:16px;padding:12px 14px;border:1.5px solid #CFC4B4;border-radius:10px;background:#fff;color:var(--brown);width:100%}
+input[type=email]:focus{outline:2px solid var(--clay);outline-offset:1px;border-color:var(--clay)}
+.hp{position:absolute;left:-9999px}
+button{font:inherit;font-weight:600;font-size:15px;background:var(--ink);color:var(--cream);border:0;border-radius:999px;padding:13px 22px;cursor:pointer}
+button:hover{background:var(--clay-d)}
+button:disabled{opacity:.6;cursor:wait}
+:focus-visible{outline:2px solid var(--clay);outline-offset:3px}
+.msg{font-size:14.5px;padding:12px 14px;border-radius:8px;background:#F3E3C0}
+.msg.err{background:#F5DEDA;color:#7A2A20}
+.sent{display:grid;gap:10px}
+.sent b{font-family:var(--f-hand);font-size:30px;color:var(--clay-d);line-height:1}
+.small{font-size:13.5px;color:var(--brown-m)}
+.small button{background:none;color:var(--clay-d);padding:0;font-size:13.5px;text-decoration:underline}
+footer{color:var(--muted);font-size:13.5px}
+footer .wrap{padding-block:20px 28px}
+</style>
+</head><body>
+<header><div class="wrap"><a class="brand" href="/editing">shedoesai</a><a class="back" href="/editing">← The Claude Editing System</a></div></header>
+<main>
+  <div class="card">
+    <span class="tape" aria-hidden="true"></span>
+    <p class="eyebrow">Student login</p>
+    <h1>Welcome <em>back</em></h1>
+    <p class="msg" id="note" hidden></p>
+    <div id="ask">
+      <form id="form" novalidate>
+        <p class="sub">Type the email you bought the course with. I'll email you a login link. No password needed.</p>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com">
+        <input class="hp" id="company" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button type="submit" id="go">Send my login link</button>
+      </form>
+    </div>
+    <div class="sent" id="sent" hidden>
+      <b>Check your inbox</b>
+      <p>If <span id="to"></span> has bought the course, a login link is on its way. It works for 15 minutes.</p>
+      <p class="small">Nothing after a few minutes? Look in Spam or Promotions, or check that it's the email you paid with. <button type="button" id="again">Try another email</button></p>
+    </div>
+  </div>
+</main>
+<footer><div class="wrap">Bought the course but can't get in? Reply to your welcome email and I'll sort it out.</div></footer>
+<script>
+const notes = {
+  expired: "That login link has expired. Get a fresh one below.",
+  payment: "We couldn't confirm your payment just now. Type your email below and you'll get a login link.",
+  out: "You're logged out."
+};
+const note = document.getElementById("note");
+const e = new URLSearchParams(location.search).get("e");
+if (notes[e]) { note.textContent = notes[e]; note.hidden = false; }
+
+const form = document.getElementById("form"), go = document.getElementById("go");
+form.addEventListener("submit", async ev => {
+  ev.preventDefault();
+  const email = document.getElementById("email").value.trim();
+  note.hidden = true; note.classList.remove("err");
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { note.textContent = "That doesn't look like an email address."; note.classList.add("err"); note.hidden = false; return; }
+  go.disabled = true; go.textContent = "Sending…";
+  try {
+    const r = await fetch("/api/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, company: document.getElementById("company").value }) });
+    if (!r.ok) throw new Error(r.status);
+    document.getElementById("to").textContent = email;
+    document.getElementById("ask").hidden = true;
+    document.getElementById("sent").hidden = false;
+  } catch (_) {
+    note.textContent = "Something went wrong on our side. Try again in a minute, or reply to your welcome email.";
+    note.classList.add("err"); note.hidden = false;
+  } finally { go.disabled = false; go.textContent = "Send my login link"; }
+});
+document.getElementById("again").addEventListener("click", () => {
+  document.getElementById("sent").hidden = true; document.getElementById("ask").hidden = false; document.getElementById("email").focus();
+});
+</script>
+</body></html>
