@@ -11,11 +11,11 @@ The form on the page posts to `/api/subscribe`, which adds the person to beehiiv
 - `BEEHIIV_TAG` (optional, default `course-waitlist`)
 - `BEEHIIV_NAME_FIELD` (optional): exact name of a beehiiv custom field for first name
 
-## Purchases (Lemon Squeezy)
-`api/purchase.js` receives Lemon Squeezy's `order_created` webhook and tags the buyer `course-buyer`.
+## Purchases (Stripe or Lemon Squeezy)
+`api/purchase.js` receives Stripe's `checkout.session.completed` or Lemon Squeezy's `order_created` webhook and tags the buyer `course-buyer`.
 Sales emails go to the beehiiv segment "tag course-waitlist AND NOT tag course-buyer".
-- `LEMONSQUEEZY_WEBHOOK_SECRET`: the signing secret set on the webhook in Lemon Squeezy
+- `STRIPE_WEBHOOK_SECRET` (starts with `whsec_`) or `LEMONSQUEEZY_WEBHOOK_SECRET`, for whichever provider is used
 - `BUYER_TAG` (optional, default `course-buyer`)
-- Webhook URL: `https://www.shedoesai.com/api/purchase`, event `order_created`
+- Webhook URL for either: `https://www.shedoesai.com/api/purchase`
 
 If the function fails, the page links to the hosted beehiiv form as a fallback.
