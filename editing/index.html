@@ -275,7 +275,12 @@ section{padding-block:96px}
 /* modules */
 .modules{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
 .mod{border:1px solid var(--line);border-radius:14px;padding:24px 22px;background:var(--ink2)}
-.mod .num{font-family:var(--f-hand);font-weight:700;font-size:54px;line-height:.8;color:var(--clay)}
+.mod .num{display:inline-flex;flex-direction:column;align-items:center;justify-content:flex-end;width:74px;height:82px;border-radius:10px;overflow:hidden;background:var(--paper);color:var(--brown);font:800 44px/1 var(--f-display);letter-spacing:-.04em;padding-bottom:9px;box-shadow:0 10px 18px -10px rgba(0,0,0,.7);transform:rotate(-3deg)}
+.mod .num small{align-self:stretch;text-align:center;background:var(--clay);color:var(--ink);font:700 12px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;padding:7px 0 6px;margin-bottom:7px}
+.mod:nth-child(even) .num{transform:rotate(3deg)}
+.mod-note .num{font-size:26px;background:var(--sticky)}
+.mod-note .num small{background:var(--brown);color:var(--sticky)}
+.mod h3{margin-top:20px!important}
 .mod h3{font-size:19px;margin:14px 0 8px;line-height:1.15;letter-spacing:-.03em}
 .mod p{font-size:15.5px;color:var(--muted)}
 .pack{position:relative;margin-top:72px;display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.4fr);gap:40px;align-items:start;padding:44px 40px}
@@ -413,6 +418,15 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 .calc-out .sub b{color:var(--brown)}
 .calc-out .hand-note{font-family:var(--f-hand);font-weight:700;font-size:28px;line-height:1.05;color:var(--clay-d);margin:22px 0 24px;transform:rotate(-1.5deg)}
 @media (max-width:860px){.calc{grid-template-columns:minmax(0,1fr);gap:40px}}
+.hk video{transition:filter .5s ease, transform .5s cubic-bezier(.2,.9,.3,1.2)}
+.hk.in.h-a video{transform:scale(1.32) translateY(4%)}
+.hk.in.h-c video{filter:grayscale(1) contrast(1.25)}
+.hk .flash{position:absolute;inset:0;z-index:3;background:#fff;opacity:0;pointer-events:none}
+.hk.h-b.f .flash{animation:flash .5s ease-out}
+@keyframes flash{0%{opacity:.95}100%{opacity:0}}
+.hk.h-b.in .vhook{background:var(--sticky);color:var(--brown);text-shadow:none;padding:6px 8px;transform:rotate(-3deg);left:14%;right:14%;border-radius:4px}
+.hk.h-b.in .vhook b{color:var(--clay-d)}
+.hk .vhook{transition:opacity .3s}
 </style>
 </head><body>
 
@@ -592,13 +606,13 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
     <div class="panel" role="tabpanel" id="p-hooks" aria-labelledby="t-hooks">
       <div class="panel-copy">
         <h3>Same video, three openings</h3>
-        <p>The first three seconds decide everything, and you never know which hook will land. Claude cuts the same video with three different openings. Post them as trial reels and keep the one that wins.</p>
-        <div class="prompt"><span class="tape" aria-hidden="true"></span><span class="eyebrow">What I asked for</span><p>Give me 3 versions of this video with different hooks in the first 3 seconds. Same edit after that.</p></div>
+        <p>The first three seconds decide everything, and you never know which hook will land. Claude cuts the same take three ways: a different opening line, a different first shot, a different title. Post them as trial reels and keep the one that wins.</p>
+        <div class="prompt"><span class="tape" aria-hidden="true"></span><span class="eyebrow">What I asked for</span><p>Make 3 trial reels from this take. Open each one with a different line from the video and a different visual hook. Same edit after that.</p></div>
       </div>
       <div class="vars">
-        <figure class="pol var"><span class="tape" aria-hidden="true"></span><div class="shot v-a"><video src="/media/raw-studio.mp4" poster="/media/raw-studio-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video><div class="vhook">Claude edits <b>all</b> my videos now</div><div class="vcap"></div></div><figcaption>trial reel A</figcaption></figure>
-        <figure class="pol var"><span class="tape" aria-hidden="true"></span><div class="shot v-b"><video src="/media/raw-studio.mp4" poster="/media/raw-studio-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video><div class="vhook">I stopped waiting on <b>video editors</b></div><div class="vcap"></div></div><figcaption>trial reel B</figcaption></figure>
-        <figure class="pol var"><span class="tape" aria-hidden="true"></span><div class="shot v-c"><video src="/media/raw-studio.mp4" poster="/media/raw-studio-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video><div class="vhook">No timeline. <b>No editing app.</b></div><div class="vcap"></div></div><figcaption>trial reel C</figcaption></figure>
+        <figure class="pol var"><span class="tape" aria-hidden="true"></span><div class="shot hk h-a" data-segs="13.40-15.78,0-13.38"><video src="/media/hook-a.mp4" poster="/media/hook-a-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video><div class="flash" aria-hidden="true"></div><div class="vhook">Edit by <b>chatting</b></div><div class="vcap"></div></div><figcaption>A · bold claim + zoom</figcaption></figure>
+        <figure class="pol var"><span class="tape" aria-hidden="true"></span><div class="shot hk h-b" data-segs="15.92-20.80,0-13.38"><video src="/media/hook-b.mp4" poster="/media/hook-b-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video><div class="flash" aria-hidden="true"></div><div class="vhook">The <b>best part</b> first</div><div class="vcap"></div></div><figcaption>B · payoff first + flash</figcaption></figure>
+        <figure class="pol var"><span class="tape" aria-hidden="true"></span><div class="shot hk h-c" data-segs="0-13.38"><video src="/media/hook-c.mp4" poster="/media/hook-c-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video><div class="flash" aria-hidden="true"></div><div class="vhook">Raw footage <b>→ reel</b></div><div class="vcap"></div></div><figcaption>C · B&amp;W to colour</figcaption></figure>
       </div>
     </div>
 
@@ -642,8 +656,8 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 <section id="story">
   <div class="wrap story">
     <div class="polaroids" aria-hidden="true">
-      <figure class="pol p1"><span class="tape"></span><img src="/media/face-b.jpg" alt=""><figcaption>studio day</figcaption></figure>
-      <figure class="pol p2"><span class="tape" style="transform:translateX(-50%) rotate(5deg)"></span><img src="/media/claude-edit-poster.jpg" alt=""><figcaption>edited by Claude</figcaption></figure>
+      <figure class="pol p1"><span class="tape"></span><img src="/media/story-studio.jpg" alt=""><figcaption>studio day</figcaption></figure>
+      <figure class="pol p2"><span class="tape" style="transform:translateX(-50%) rotate(5deg)"></span><img src="/media/story-edited.jpg" alt=""><figcaption>edited by Claude</figcaption></figure>
       <div class="sticky">idea → posted while it still feels fresh</div>
     </div>
     <div class="story-copy">
@@ -684,19 +698,19 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
       <p>One short lesson and one small task a day. Built for people who have watched the courses but never got started, or never opened an editing app and don't want to.</p>
     </div>
     <div class="modules">
-      <div class="mod"><div class="num">1</div><h3>Set up</h3><p>Get Claude ready to edit video and run your first test edit. You only do this once.</p></div>
-      <div class="mod"><div class="num">2</div><h3>Write your script</h3><p>Pick one idea and write the script with Claude, using my script setup.</p></div>
-      <div class="mod"><div class="num">3</div><h3>Film it</h3><p>Film your talking-head video. I show you the few things that make the edit easy.</p></div>
-      <div class="mod"><div class="num">4</div><h3>First edit</h3><p>Hand Claude your raw video and get cuts and captions back.</p></div>
-      <div class="mod"><div class="num">5</div><h3>Make it pop</h3><p>Add effects, pop-ups and sound, and ask for changes in plain words.</p></div>
-      <div class="mod"><div class="num">6</div><h3>Make it yours</h3><p>Mix the looks you love, add your colours and fonts, and save it as your style.</p></div>
-      <div class="mod"><div class="num">7</div><h3>Post it</h3><p>Export for Instagram and TikTok and post your first Claude-edited reel.</p></div>
-      <div class="mod"><div class="num">✦</div><h3>One video a day</h3><p>A new lesson drops every day for 7 days, starting the day you join. No start date, nothing live. Fall behind? Your lessons wait for you.</p></div>
+      <div class="mod"><div class="num"><small>Day</small>1</div><h3>Set up</h3><p>Get Claude ready to edit video and run your first test edit. You only do this once.</p></div>
+      <div class="mod"><div class="num"><small>Day</small>2</div><h3>Write your script</h3><p>Pick one idea and write the script with Claude, using my script setup.</p></div>
+      <div class="mod"><div class="num"><small>Day</small>3</div><h3>Film it</h3><p>Film your talking-head video. I show you the few things that make the edit easy.</p></div>
+      <div class="mod"><div class="num"><small>Day</small>4</div><h3>First edit</h3><p>Hand Claude your raw video and get cuts and captions back.</p></div>
+      <div class="mod"><div class="num"><small>Day</small>5</div><h3>Make it pop</h3><p>Add effects, pop-ups and sound, and ask for changes in plain words.</p></div>
+      <div class="mod"><div class="num"><small>Day</small>6</div><h3>Make it yours</h3><p>Pick your look, add your colours and fonts, and save it as your style.</p></div>
+      <div class="mod"><div class="num"><small>Day</small>7</div><h3>Post it</h3><p>Export for Instagram and TikTok and post your first Claude-edited reel.</p></div>
+      <div class="mod mod-note"><div class="num"><small>Every</small>day</div><h3>One video a day</h3><p>A new lesson drops every day for 7 days, starting the day you join. No start date, nothing live. Fall behind? Your lessons wait for you.</p></div>
     </div>
 
     <div class="pack board">
       <span class="tape" aria-hidden="true"></span>
-      <h3>Comes with my <em>student pack</em></h3>
+      <h3>Comes with my <em>entire AI editing system</em></h3>
       <ul>
         <li><svg aria-hidden="true"><use href="#spark"/></svg><div><b>My editing setup for Claude.</b> The instructions I use, ready to copy, so Claude edits your way from the first try.</div></li>
         <li><svg aria-hidden="true"><use href="#spark"/></svg><div><b>Style starters.</b> Ready-made looks to start from and mix, plus a template for your own brand style.
@@ -768,6 +782,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
       <details><summary>Do I need to know how to edit?</summary><p>No. You'll never touch a timeline. You film, then describe what you want in plain words, and Claude does the editing.</p></details>
       <details><summary>What do I need to film?</summary><p>Whatever you film with now, a phone or a camera. I'll show you the few things that make the biggest difference to the final edit.</p></details>
       <details><summary>Which Claude plan do I need?</summary><p>A paid Claude plan. Day 1 walks you through the exact setup step by step.</p></details>
+      <details><summary>Does it work with ChatGPT too?</summary><p>Yes. The same setup works with ChatGPT, and I've edited videos with it too. Claude is just my favourite, so that's what I show you in the challenge.</p></details>
       <details><summary>How much time does it take?</summary><p>One short lesson and one task a day for 7 days. A new lesson drops each day from the day you join. Everything is pre-recorded, so you watch it whenever it suits you.</p></details>
       <details><summary>When does it open?</summary><p>Soon. People on the waitlist get the email first, with the waitlist price.</p></details>
     </div>
@@ -920,15 +935,20 @@ document.querySelectorAll("#swatches button").forEach(b => b.addEventListener("c
 }));
 hookEl.innerHTML = HOOK;
 
-// Variation minis (hooks + looks): word captions on each, hook shows the first 3 sec.
+// Variation minis (hooks + looks). Hook reels are re-cut: data-segs maps playback time to the raw clip.
 document.querySelectorAll(".vars .shot").forEach(shot => {
   const v = shot.querySelector("video"), cap = shot.querySelector(".vcap"), hk = shot.querySelector(".vhook");
-  let last = null;
+  const segs = (shot.dataset.segs || "").split(",").filter(Boolean).map(x => x.split("-").map(Number));
+  const hookLen = segs.length > 1 ? segs[0][1] - segs[0][0] : 3.2;
+  const src = t => { let acc = 0; for (const [a, b] of segs) { if (t < acc + (b - a)) return a + (t - acc); acc += b - a; } return t; };
+  let last = null, wasIn = false;
   const tick = () => {
-    const t = v.currentTime, line = lineAt(t);
-    if (hk) hk.style.opacity = t < 3.2 ? 1 : 0;
-    if (line !== last) { cap.innerHTML = line && !(hk && t < 3.2) ? line.map(i => '<span data-i="' + i + '">' + WORDS[i][2].replace(/[.,]$/, "") + '</span>').join("") : ""; last = line; }
-    cap.querySelectorAll("span").forEach(sp => { const w = WORDS[+sp.dataset.i]; sp.classList.toggle("on", t >= w[0] && t < w[1] + .08); });
+    const t = v.currentTime, inHook = t < Math.min(hookLen, 3.2), st = segs.length ? src(t) : t, line = lineAt(st);
+    if (hk) hk.style.opacity = inHook ? 1 : 0;
+    if (shot.classList.contains("hk")) { shot.classList.toggle("in", inHook); if (inHook && !wasIn) { shot.classList.remove("f"); void shot.offsetWidth; shot.classList.add("f"); } }
+    wasIn = inHook;
+    if (line !== last) { cap.innerHTML = line && !(hk && inHook && !shot.classList.contains("hk")) ? line.map(i => '<span data-i="' + i + '">' + WORDS[i][2].replace(/[.,:]$/, "") + '</span>').join("") : ""; last = line; }
+    cap.querySelectorAll("span").forEach(sp => { const w = WORDS[+sp.dataset.i]; sp.classList.toggle("on", st >= w[0] && st < w[1] + .08); });
     requestAnimationFrame(tick);
   };
   requestAnimationFrame(tick);
