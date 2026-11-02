@@ -345,17 +345,18 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 
 /* proof reels */
 .proof-reels{padding-block:72px}
-.reels{display:flex;justify-content:center;align-items:flex-start;gap:clamp(14px,3vw,40px);flex-wrap:wrap;margin-top:36px}
-.reels .pol{width:clamp(140px,19vw,230px)}
+.reels{display:flex;justify-content:center;align-items:flex-start;gap:clamp(10px,2vw,28px);flex-wrap:wrap;margin-top:36px}
+.reels .pol{width:clamp(118px,15vw,190px)}
 .reels .pol:nth-child(1){transform:rotate(-3deg)}
 .reels .pol:nth-child(2){transform:rotate(2deg);margin-top:28px}
 .reels .pol:nth-child(3){transform:rotate(-1.5deg)}
 .reels .pol:nth-child(4){transform:rotate(2.5deg);margin-top:20px}
+.reels .pol:nth-child(5){transform:rotate(-2deg);margin-top:6px}
 .reels .shot{cursor:pointer}
 .reels .tap{position:absolute;right:8px;bottom:8px;background:rgba(21,19,17,.75);color:var(--cream);font-size:12px;font-weight:600;padding:5px 9px;border-radius:999px;pointer-events:none}
 .proof-reels .head h2 em{color:var(--clay-d)}
 .never{margin:56px auto 0;max-width:24ch;text-wrap:balance;text-align:center;font-family:var(--f-hand);font-weight:700;font-size:clamp(34px,4.4vw,58px);line-height:1.05;color:var(--brown);transform:rotate(-1.5deg)}
-@media (max-width:640px){.reels .pol:nth-child(4){margin-top:0}.reels{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding:10px 16px 24px;margin-inline:-16px;scroll-snap-type:x mandatory}.reels .pol{flex:0 0 62%;scroll-snap-align:center}.reels .pol:nth-child(2){margin-top:0}}
+@media (max-width:640px){.reels .pol:nth-child(4),.reels .pol:nth-child(5){margin-top:0}.reels{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding:10px 16px 24px;margin-inline:-16px;scroll-snap-type:x mandatory}.reels .pol{flex:0 0 62%;scroll-snap-align:center}.reels .pol:nth-child(2){margin-top:0}}
 </style>
 </head><body>
 
@@ -432,13 +433,14 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
   <div class="wrap">
     <div class="head">
       <h2>Organic or sponsored, <em>Claude edits it all</em></h2>
-      <p>Since October every video I post is edited by Claude, my own reels and my brand deals. Captions, pop-ups, effects and sound. Tap a video to hear it.</p>
+      <p>My first Claude edit was a brand deal back in August. Since October every video I post is edited by Claude, my own reels and my brand deals. Captions, pop-ups, effects and sound. Tap a video to hear it.</p>
     </div>
     <div class="reels">
+      <figure class="pol"><span class="tape" aria-hidden="true"></span><div class="shot"><video src="/media/reel-chatcut.mp4" poster="/media/reel-chatcut-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Sponsored ChatCut reel edited by Claude, August 2026"></video><span class="tap">tap for sound</span></div><figcaption>ChatCut deal, Aug</figcaption></figure>
       <figure class="pol"><span class="tape" aria-hidden="true"></span><div class="shot"><video src="/media/reel-effects.mp4" poster="/media/reel-effects-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Reel with Claude-made effects"></video><span class="tap">tap for sound</span></div><figcaption>organic</figcaption></figure>
       <figure class="pol"><span class="tape" aria-hidden="true"></span><div class="shot"><video src="/media/claude-edit.mp4" poster="/media/claude-edit-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="This entire video was edited by Claude"></video><span class="tap">tap for sound</span></div><figcaption>organic</figcaption></figure>
-      <figure class="pol"><span class="tape" aria-hidden="true"></span><div class="shot"><video src="/media/reel-bluehost.mp4" poster="/media/reel-bluehost-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Brand deal reel edited by Claude"></video><span class="tap">tap for sound</span></div><figcaption>sponsored ✦ Bluehost</figcaption></figure>
-      <figure class="pol"><span class="tape" aria-hidden="true"></span><div class="shot"><video src="/media/reel-heygen.mp4" poster="/media/reel-heygen-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Sponsored HeyGen reel edited by Claude"></video><span class="tap">tap for sound</span></div><figcaption>sponsored ✦ HeyGen</figcaption></figure>
+      <figure class="pol"><span class="tape" aria-hidden="true"></span><div class="shot"><video src="/media/reel-bluehost.mp4" poster="/media/reel-bluehost-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Brand deal reel edited by Claude"></video><span class="tap">tap for sound</span></div><figcaption>Bluehost deal</figcaption></figure>
+      <figure class="pol"><span class="tape" aria-hidden="true"></span><div class="shot"><video src="/media/reel-heygen.mp4" poster="/media/reel-heygen-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Sponsored HeyGen reel edited by Claude"></video><span class="tap">tap for sound</span></div><figcaption>HeyGen deal</figcaption></figure>
     </div>
     <p class="never">And honestly? I'm never going back to a human video editor.</p>
   </div>
