@@ -393,6 +393,9 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 .ba-board{background:none;padding:40px 0 0;overflow:visible}
 .ba-board .sticky{right:2%;bottom:auto;top:30%}
 .ba-board .note{left:4%;top:4%}
+.ba-tag{position:absolute;z-index:5;top:-46px;left:50%;transform:translateX(-50%) rotate(-3deg);font:800 clamp(18px,1.9vw,24px)/1 var(--f-display);letter-spacing:.06em;text-transform:uppercase;background:#fff;color:var(--brown);padding:9px 16px;border-radius:8px;box-shadow:0 10px 20px -10px rgba(0,0,0,.45)}
+.ba-tag.on{background:var(--clay);color:var(--ink);transform:translateX(-50%) rotate(3deg)}
+.ba-board{padding-top:84px}
 .never{margin:56px auto 0;max-width:24ch;text-wrap:balance;text-align:center;font-family:var(--f-hand);font-weight:700;font-size:clamp(34px,4.4vw,58px);line-height:1.05;color:var(--brown);transform:rotate(-1.5deg)}
 @media (max-width:640px){.reels .pol:nth-child(4),.reels .pol:nth-child(5){margin-top:0}.reels{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding:10px 16px 24px;margin-inline:-16px;scroll-snap-type:x mandatory}.reels .pol{flex:0 0 62%;scroll-snap-align:center}.reels .pol:nth-child(2){margin-top:0}}
 /* time calculator */
@@ -472,9 +475,9 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
       <p>My first Claude edit was a brand deal back in August. Since October every video I post is edited by Claude, my own reels and my brand deals. Captions, pop-ups, effects and sound. Tap a video to hear it.</p>
     </div>
     <div class="hero-board ba-board">
-    <span class="note" aria-hidden="true">before → after</span>
+    
     <div class="ba">
-      <figure class="pol pol-raw">
+      <figure class="pol pol-raw"><span class="ba-tag">Before</span>
         <span class="tape" aria-hidden="true"></span>
         <div class="shot">
           <video id="v-raw" src="/media/raw-claude-edit.mp4" poster="/media/raw-start.jpg" autoplay muted loop playsinline preload="auto" aria-label="The raw, unedited clip"></video>
@@ -485,7 +488,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
         <span>Claude edits</span>
         <svg viewBox="0 0 110 60" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 44c18-26 52-34 90-16"/><path d="M82 16l15 12-17 8"/></svg>
       </div>
-      <figure class="pol pol-edit">
+      <figure class="pol pol-edit"><span class="ba-tag on">After</span>
         <span class="tape" aria-hidden="true" style="transform:translateX(-50%) rotate(5deg)"></span>
         <div class="shot">
           <video id="v-edit" src="/media/claude-edit.mp4" poster="/media/claude-edit-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="The same clip after Claude's edit"></video>
