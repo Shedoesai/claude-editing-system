@@ -383,6 +383,15 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 .reels .shot{cursor:pointer}
 .reels .tap{position:absolute;right:8px;bottom:8px;background:rgba(21,19,17,.75);color:var(--cream);font-size:12px;font-weight:600;padding:5px 9px;border-radius:999px;pointer-events:none}
 .proof-reels .head h2 em{color:var(--clay-d)}
+.hero-reels{max-width:600px;margin-top:0;gap:14px 12px;padding-top:28px}
+.hero-reels .pol{width:clamp(108px,11.5vw,168px);margin-top:0!important;padding:7px 7px 34px}
+.hero-reels .pol figcaption{font-size:17px}
+.hero-reels .pol:nth-child(2){margin-top:22px!important}
+.hero-reels .pol:nth-child(4){margin-left:6%}
+.hero-reels .tap{font-size:10.5px;padding:4px 7px}
+.ba-board{background:none;padding:40px 0 0;overflow:visible}
+.ba-board .sticky{right:2%;bottom:auto;top:30%}
+.ba-board .note{left:4%;top:4%}
 .never{margin:56px auto 0;max-width:24ch;text-wrap:balance;text-align:center;font-family:var(--f-hand);font-weight:700;font-size:clamp(34px,4.4vw,58px);line-height:1.05;color:var(--brown);transform:rotate(-1.5deg)}
 @media (max-width:640px){.reels .pol:nth-child(4),.reels .pol:nth-child(5){margin-top:0}.reels{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding:10px 16px 24px;margin-inline:-16px;scroll-snap-type:x mandatory}.reels .pol{flex:0 0 62%;scroll-snap-align:center}.reels .pol:nth-child(2){margin-top:0}}
 </style>
@@ -415,11 +424,38 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
       </div>
       <div class="hp" aria-hidden="true"><input name="company" type="text" tabindex="-1" autocomplete="off"></div>
       <p class="err" role="alert" hidden></p>
-      <p class="proof">Free to join, no spam. Same clip on the board: my raw file, then Claude's edit.</p>
+      <p class="proof">Free to join, no spam. Every video on the board was edited by Claude. Tap one to hear it.</p>
     </form>
   </div>
 
   <div class="hero-board board">
+    <span class="note" aria-hidden="true">organic or sponsored, Claude edits it all</span>
+    <div class="reels hero-reels">
+      <figure class="pol"><span class="tape" aria-hidden="true"></span><div class="shot"><video src="/media/reel-chatcut.mp4" poster="/media/reel-chatcut-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Sponsored ChatCut reel edited by Claude, August 2026"></video><span class="tap">tap for sound</span></div><figcaption>ChatCut deal, Aug</figcaption></figure>
+      <figure class="pol"><span class="tape" aria-hidden="true"></span><div class="shot"><video src="/media/reel-effects.mp4" poster="/media/reel-effects-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Reel with Claude-made effects"></video><span class="tap">tap for sound</span></div><figcaption>organic</figcaption></figure>
+      <figure class="pol"><span class="tape" aria-hidden="true"></span><div class="shot"><video src="/media/claude-edit.mp4" poster="/media/claude-edit-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="This entire video was edited by Claude"></video><span class="tap">tap for sound</span></div><figcaption>organic</figcaption></figure>
+      <figure class="pol"><span class="tape" aria-hidden="true"></span><div class="shot"><video src="/media/reel-bluehost.mp4" poster="/media/reel-bluehost-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Brand deal reel edited by Claude"></video><span class="tap">tap for sound</span></div><figcaption>Bluehost deal</figcaption></figure>
+      <figure class="pol"><span class="tape" aria-hidden="true"></span><div class="shot"><video src="/media/reel-heygen.mp4" poster="/media/reel-heygen-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Sponsored HeyGen reel edited by Claude"></video><span class="tap">tap for sound</span></div><figcaption>HeyGen deal</figcaption></figure>
+    </div>
+    <div class="sticky" aria-hidden="true">every video<br>since October</div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-inner">
+    <span>7 days <i>✦</i> 1 finished reel <i>✦</i> write it <i>✦</i> film it <i>✦</i> let Claude edit it <i>✦</i> 1 video a day <i>✦</i></span>
+    <span>7 days <i>✦</i> 1 finished reel <i>✦</i> write it <i>✦</i> film it <i>✦</i> let Claude edit it <i>✦</i> 1 video a day <i>✦</i></span>
+  </div>
+</div>
+
+
+<section class="proof-reels board" id="reels">
+  <div class="wrap">
+    <div class="head">
+      <h2>Same clip. <em>Raw vs. edited.</em></h2>
+      <p>My first Claude edit was a brand deal back in August. Since October every video I post is edited by Claude, my own reels and my brand deals. Captions, pop-ups, effects and sound. Tap a video to hear it.</p>
+    </div>
+    <div class="hero-board ba-board">
     <span class="note" aria-hidden="true">before → after</span>
     <div class="ba">
       <figure class="pol pol-raw">
@@ -447,29 +483,6 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
     </div>
     <div class="sticky" aria-hidden="true">0:20 of video,<br>zero editing apps</div>
   </div>
-</section>
-
-<div class="marquee" aria-hidden="true">
-  <div class="marquee-inner">
-    <span>7 days <i>✦</i> 1 finished reel <i>✦</i> write it <i>✦</i> film it <i>✦</i> let Claude edit it <i>✦</i> your own pace <i>✦</i></span>
-    <span>7 days <i>✦</i> 1 finished reel <i>✦</i> write it <i>✦</i> film it <i>✦</i> let Claude edit it <i>✦</i> your own pace <i>✦</i></span>
-  </div>
-</div>
-
-
-<section class="proof-reels board" id="reels">
-  <div class="wrap">
-    <div class="head">
-      <h2>Organic or sponsored, <em>Claude edits it all</em></h2>
-      <p>My first Claude edit was a brand deal back in August. Since October every video I post is edited by Claude, my own reels and my brand deals. Captions, pop-ups, effects and sound. Tap a video to hear it.</p>
-    </div>
-    <div class="reels">
-      <figure class="pol"><span class="tape" aria-hidden="true"></span><div class="shot"><video src="/media/reel-chatcut.mp4" poster="/media/reel-chatcut-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Sponsored ChatCut reel edited by Claude, August 2026"></video><span class="tap">tap for sound</span></div><figcaption>ChatCut deal, Aug</figcaption></figure>
-      <figure class="pol"><span class="tape" aria-hidden="true"></span><div class="shot"><video src="/media/reel-effects.mp4" poster="/media/reel-effects-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Reel with Claude-made effects"></video><span class="tap">tap for sound</span></div><figcaption>organic</figcaption></figure>
-      <figure class="pol"><span class="tape" aria-hidden="true"></span><div class="shot"><video src="/media/claude-edit.mp4" poster="/media/claude-edit-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="This entire video was edited by Claude"></video><span class="tap">tap for sound</span></div><figcaption>organic</figcaption></figure>
-      <figure class="pol"><span class="tape" aria-hidden="true"></span><div class="shot"><video src="/media/reel-bluehost.mp4" poster="/media/reel-bluehost-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Brand deal reel edited by Claude"></video><span class="tap">tap for sound</span></div><figcaption>Bluehost deal</figcaption></figure>
-      <figure class="pol"><span class="tape" aria-hidden="true"></span><div class="shot"><video src="/media/reel-heygen.mp4" poster="/media/reel-heygen-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Sponsored HeyGen reel edited by Claude"></video><span class="tap">tap for sound</span></div><figcaption>HeyGen deal</figcaption></figure>
-    </div>
     <p class="never">And honestly? I'm never going back to a human video editor.</p>
   </div>
 </section>
@@ -659,7 +672,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
       <div class="mod"><div class="num">5</div><h3>Make it pop</h3><p>Add effects, pop-ups and sound, and ask for changes in plain words.</p></div>
       <div class="mod"><div class="num">6</div><h3>Make it yours</h3><p>Mix the looks you love, add your colours and fonts, and save it as your style.</p></div>
       <div class="mod"><div class="num">7</div><h3>Post it</h3><p>Export for Instagram and TikTok and post your first Claude-edited reel.</p></div>
-      <div class="mod"><div class="num">✦</div><h3>Your own pace</h3><p>Everything opens the day you join. Do one day a day, or binge it in a weekend.</p></div>
+      <div class="mod"><div class="num">✦</div><h3>One video a day</h3><p>A new lesson drops every day for 7 days, starting the day you join. No start date, nothing live. Fall behind? Your lessons wait for you.</p></div>
     </div>
 
     <div class="pack board">
@@ -709,7 +722,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
       <details><summary>Do I need to know how to edit?</summary><p>No. You'll never touch a timeline. You film, then describe what you want in plain words, and Claude does the editing.</p></details>
       <details><summary>What do I need to film?</summary><p>Whatever you film with now, a phone or a camera. I'll show you the few things that make the biggest difference to the final edit.</p></details>
       <details><summary>Which Claude plan do I need?</summary><p>A paid Claude plan. Day 1 walks you through the exact setup step by step.</p></details>
-      <details><summary>How much time does it take?</summary><p>One short lesson and one task a day for 7 days. Everything is pre-recorded and opens the day you join, so you can go at your own pace.</p></details>
+      <details><summary>How much time does it take?</summary><p>One short lesson and one task a day for 7 days. A new lesson drops each day from the day you join. Everything is pre-recorded, so you watch it whenever it suits you.</p></details>
       <details><summary>When does it open?</summary><p>Soon. People on the waitlist get the email first, with the waitlist price.</p></details>
     </div>
   </div>
