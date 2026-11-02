@@ -226,7 +226,7 @@ section{padding-block:96px}
 .slide::after{content:"@shedoesai";position:absolute;left:26px;bottom:10px;font:600 10px/1 var(--f-mono);letter-spacing:.06em;opacity:.45}
 .cs-n{font:800 15px/1 var(--f-mono);color:var(--clay-d);margin-bottom:12px}
 .cs-cover{padding:0;justify-content:flex-end;color:#fff;background:#222}
-.cs-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;max-width:none}
+.cs-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;max-width:none}
 .cs-cover::before{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.82) 0%,rgba(0,0,0,.35) 45%,transparent 70%)}
 .cs-cover::after{color:#fff;opacity:.7}
 .cs-cover-txt{position:relative;padding:0 24px 36px}
@@ -294,7 +294,7 @@ section{padding-block:96px}
 .gap-head .hand{font-size:24px}
 .gap-axis{display:grid;grid-template-columns:repeat(5,1fr);margin-left:166px;font:600 11px/1 var(--f-mono);color:var(--brown-m);text-transform:uppercase;letter-spacing:.08em;border-bottom:1px dashed var(--line-d);padding-bottom:8px;margin-bottom:6px}
 .gap-axis span{border-left:1px dashed var(--line-d);padding-left:6px}
-.gap-row{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;align-items:center;padding:10px 0}
+.gap-row{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;align-items:center;padding:10px 8px;margin:0 -8px}
 .gap-label{font-weight:600;font-size:15px;display:flex;align-items:center;gap:8px}
 .gap-label i{font-style:normal;width:26px;height:26px;border-radius:50%;background:var(--paper);display:grid;place-items:center;font-size:13px;flex:0 0 auto}
 .gap-row.now .gap-label i{background:var(--ink);color:var(--sticky)}
@@ -419,6 +419,31 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
   .join .sticky{right:0;top:-40px;width:120px;font-size:18px}
   .label{font-size:9px;top:6px;left:6px}
   .sound{font-size:11px;padding:5px 9px;bottom:6px;right:6px}
+}
+
+/* hover effects (mouse only) */
+.pol,.mod,.mod .num,.how > div,.ig,.calc-out,.sticky,.chips span,.tabs button,.pack li svg,.gap-row,.cs-comment,.ig-arrow,.never{transition:translate .35s cubic-bezier(.3,1.5,.5,1),scale .35s cubic-bezier(.3,1.5,.5,1),rotate .35s ease,box-shadow .3s,background .2s,border-color .2s,color .2s}
+@media (hover:hover){
+  .pol:hover{translate:0 -8px;scale:1.04;rotate:1.5deg;z-index:6;box-shadow:0 30px 44px -18px rgba(0,0,0,.55),0 2px 4px rgba(0,0,0,.12)}
+  .reels .pol:nth-child(even):hover,.pair .pol:last-child:hover{rotate:-1.5deg}
+  .mod:hover{translate:0 -6px;border-color:var(--clay);box-shadow:0 22px 34px -20px rgba(224,138,95,.45)}
+  .mod:hover .num{rotate:-6deg;scale:1.1}
+  .mod:nth-child(even):hover .num{rotate:6deg}
+  .how > div:hover{translate:0 -6px;rotate:1deg;box-shadow:0 30px 40px -20px rgba(0,0,0,.7)}
+  .ig:hover{rotate:-1.2deg;scale:1.02;box-shadow:0 36px 56px -26px rgba(0,0,0,.6)}
+  .calc-out:hover{rotate:1.2deg;scale:1.02}
+  .sticky:hover{rotate:-4deg;scale:1.08}
+  .chips span:hover{translate:0 -3px;background:var(--clay);color:var(--ink)}
+  .tabs button:not([aria-selected="true"]):hover{background:var(--paper);border-color:var(--brown);translate:0 -2px}
+  .pack li:hover svg{rotate:180deg;scale:1.3}
+  .gap-row:hover{background:rgba(255,255,255,.35);border-radius:10px}
+  .gap-row:hover .seg{filter:saturate(1.3)}
+  .cs-comment:hover{scale:1.06;rotate:2deg}
+  .ig-arrow:hover{scale:1.15}
+  .never:hover{scale:1.04;rotate:1deg}
+  .cta:hover{box-shadow:0 12px 24px -10px rgba(224,138,95,.7)}
+  summary:hover{color:var(--clay)}
+  .slash-cmds button:hover{translate:0 -2px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -688,7 +713,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
           <div class="ig-top"><span class="ig-av"><img src="/media/face-a.jpg" alt=""></span><b>shedoesai</b><span class="ig-dots" aria-hidden="true">•••</span></div>
           <div class="ig-frame">
             <div class="track" id="track" tabindex="0" aria-label="Carousel slides">
-              <div class="slide cs-cover"><img src="/media/raw-studio-poster.jpg" alt=""><div class="cs-cover-txt"><span class="cs-kick">How I edit now</span><h4>I don't edit my videos anymore. <em>Claude does.</em></h4></div></div>
+              <div class="slide cs-cover"><img src="/media/carousel-cover.jpg" alt=""><div class="cs-cover-txt"><span class="cs-kick">How I edit now</span><h4>I don't edit my videos anymore. <em>Claude does.</em></h4></div></div>
               <div class="slide cs-p"><span class="cs-n">01</span><h4>Film one <em>raw take</em></h4><div class="cs-img"><img src="/media/story-studio.jpg" alt=""></div><p>Phone, tripod, one take. No editing app.</p></div>
               <div class="slide cs-p"><span class="cs-n">02</span><h4>Tell Claude <em>what you want</em></h4><div class="cs-chat"><span class="me">add captions + zoom on the punchline</span><span class="cl">Done ✦ preview ready</span><span class="me">make the colours warmer</span><span class="cl">✓ colour grade added</span></div><p>Plain words. Like texting a friend.</p></div>
               <div class="slide cs-p"><span class="cs-n">03</span><h4>Pick the effects <em>you like</em></h4><div class="cs-list"><span class="on">✓ captions</span><span class="on">✓ punch zoom</span><span>sound effects</span><span class="on">✓ colour grade</span></div><p>Preview first. Render only what you keep.</p></div>
