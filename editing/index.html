@@ -342,6 +342,18 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* proof reels */
+.proof-reels{padding-block:72px}
+.reels{display:flex;justify-content:center;align-items:flex-start;gap:clamp(14px,3vw,40px);flex-wrap:wrap;margin-top:36px}
+.reels .pol{width:clamp(150px,22vw,250px)}
+.reels .pol:nth-child(1){transform:rotate(-3deg)}
+.reels .pol:nth-child(2){transform:rotate(2deg);margin-top:28px}
+.reels .pol:nth-child(3){transform:rotate(-1.5deg)}
+.reels .shot{cursor:pointer}
+.reels .tap{position:absolute;right:8px;bottom:8px;background:rgba(21,19,17,.75);color:var(--cream);font-size:12px;font-weight:600;padding:5px 9px;border-radius:999px;pointer-events:none}
+.proof-reels .head h2 em{color:var(--clay-d)}
+@media (max-width:640px){.reels{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding:10px 16px 24px;margin-inline:-16px;scroll-snap-type:x mandatory}.reels .pol{flex:0 0 62%;scroll-snap-align:center}.reels .pol:nth-child(2){margin-top:0}}
 </style>
 </head><body>
 
@@ -412,6 +424,21 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
     <span>7 days <i>✦</i> 1 finished reel <i>✦</i> write it <i>✦</i> film it <i>✦</i> let Claude edit it <i>✦</i> your own pace <i>✦</i></span>
   </div>
 </div>
+
+
+<section class="proof-reels board" id="reels">
+  <div class="wrap">
+    <div class="head">
+      <h2>Edited by Claude, <em>posted this month</em></h2>
+      <p>Talking-head reels I filmed and Claude edited: captions, pop-ups, effects and sound. Tap a video to hear it.</p>
+    </div>
+    <div class="reels">
+      <figure class="pol"><span class="tape" aria-hidden="true"></span><div class="shot"><video src="/media/reel-effects.mp4" poster="/media/reel-effects-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Reel with Claude-made effects"></video><span class="tap">tap for sound</span></div><figcaption>effects reel</figcaption></figure>
+      <figure class="pol"><span class="tape" aria-hidden="true"></span><div class="shot"><video src="/media/claude-edit.mp4" poster="/media/claude-edit-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="This entire video was edited by Claude"></video><span class="tap">tap for sound</span></div><figcaption>my first Claude edit</figcaption></figure>
+      <figure class="pol"><span class="tape" aria-hidden="true"></span><div class="shot"><video src="/media/reel-bluehost.mp4" poster="/media/reel-bluehost-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Brand deal reel edited by Claude"></video><span class="tap">tap for sound</span></div><figcaption>a brand deal</figcaption></figure>
+    </div>
+  </div>
+</section>
 
 <section id="style">
   <div class="wrap">
@@ -780,6 +807,16 @@ const track = document.getElementById("track");
 const step = () => track.querySelector(".slide").getBoundingClientRect().width + 18;
 document.getElementById("car-prev").addEventListener("click", () => track.scrollBy({left: -step(), behavior: "smooth"}));
 document.getElementById("car-next").addEventListener("click", () => track.scrollBy({left: step(), behavior: "smooth"}));
+
+// Proof reels: tap to toggle sound on one at a time.
+document.querySelectorAll('.reels .shot').forEach(shot=>{
+  const v=shot.querySelector('video'), tap=shot.querySelector('.tap');
+  shot.addEventListener('click',()=>{
+    const on=v.muted;
+    document.querySelectorAll('.reels video').forEach(o=>{o.muted=true;o.parentNode.querySelector('.tap').textContent='tap for sound'});
+    if(on){v.muted=false;v.currentTime=0;v.play();tap.textContent='sound on';}
+  });
+});
 </script>
 
 </body></html>
