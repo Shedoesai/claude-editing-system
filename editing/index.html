@@ -19,7 +19,7 @@
    One committed look (no theme switch). */
 :root{
   --ink:#151311; --ink2:#1E1B18; --cream:#F2ECE3; --muted:#A9A196; --clay:#E08A5F; --clay-d:#A9542F;
-  --board:#E9E0D1; --paper:#F7F1E6; --sticky:#F3C969; --brown:#2A2420; --brown-m:#6B6157;
+  --board:#E9E0D1; --paper:#F7F1E6; --sticky:#F3C969; --brown:#2A2420; --brown-m:#4F463F;
   --line:rgba(242,236,227,.14); --line-d:rgba(42,36,32,.16);
   --f-display:"Sora",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-hand:"Caveat","Comic Sans MS",cursive;
@@ -210,25 +210,59 @@ section{padding-block:96px}
 .pair .pol:last-child{transform:rotate(2.5deg)}
 .pair figcaption{font-size:21px}
 
-.carousel{min-width:0}
-.track{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 10px 22px 4px;scrollbar-width:thin}
-.slide{flex:0 0 min(78%,290px);aspect-ratio:4/5;scroll-snap-align:start;border-radius:6px;box-shadow:0 14px 24px -16px rgba(0,0,0,.5);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:22px;max-width:100%}
-.slide .n{font-family:var(--f-mono);font-size:11px;opacity:.7}
-.slide h4{font-size:24px;line-height:1.08;letter-spacing:-.035em}
-.slide p{font-size:15px;line-height:1.45;font-weight:400}
-.sl-photo{color:var(--cream);background:var(--ink)}
-.sl-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;opacity:.7;max-width:none}
-.sl-photo > *{position:relative}
-.sl-photo h4{text-shadow:0 2px 12px rgba(0,0,0,.6)}
-.sl-photo h4 em,.sl-ink h4 em{color:var(--clay)}
-.sl-sticky{background:var(--sticky);color:var(--brown)} .sl-clay{background:var(--clay);color:var(--ink)} .sl-paper{background:var(--paper);color:var(--brown)} .sl-ink{background:var(--ink);color:var(--cream)}
-.sl-clay h4 em{color:var(--ink)}
-.steps-mini{display:flex;flex-direction:column;gap:8px;font-family:var(--f-mono);font-size:12.5px}
-.steps-mini div{background:rgba(255,255,255,.55);color:var(--brown);border-radius:6px;padding:7px 10px}
-.swipe{font-family:var(--f-hand);font-weight:700;font-size:22px}
-.car-nav{display:flex;gap:10px;margin-top:22px}
-.car-nav button{appearance:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line-d);background:var(--paper);color:var(--brown);cursor:pointer;display:grid;place-items:center}
-.car-nav svg{width:18px;height:18px}
+.carousel{min-width:0;display:flex;justify-content:center}
+.ig{width:min(100%,380px);background:#fff;color:#111;border-radius:14px;box-shadow:0 26px 44px -26px rgba(0,0,0,.6);overflow:hidden;transform:rotate(1.2deg)}
+.ig-top{display:flex;align-items:center;gap:9px;padding:10px 12px;font-size:13.5px}
+.ig-av{width:30px;height:30px;border-radius:50%;padding:2px;background:conic-gradient(var(--sticky),var(--clay),var(--clay-d),var(--sticky));display:inline-block;flex:0 0 auto}
+.ig-av img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid #fff;max-width:none}
+.ig-dots{margin-left:auto;letter-spacing:1px;font-size:11px}
+.ig-frame{position:relative}
+.track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.track::-webkit-scrollbar{display:none}
+.slide{flex:0 0 100%;aspect-ratio:4/5;scroll-snap-align:start;position:relative;overflow:hidden;display:flex;flex-direction:column;padding:30px 26px 24px;background:#F6F0E6;color:var(--brown)}
+.slide h4{font-size:31px;line-height:1.02;letter-spacing:-.04em}
+.slide h4 em{font-family:var(--f-hand);font-style:normal;font-weight:700;color:var(--clay-d);letter-spacing:0;font-size:1.08em}
+.slide p{font-size:15px;line-height:1.4;font-weight:500;margin-top:auto;color:var(--brown-m)}
+.slide::after{content:"@shedoesai";position:absolute;left:26px;bottom:10px;font:600 10px/1 var(--f-mono);letter-spacing:.06em;opacity:.45}
+.cs-n{font:800 15px/1 var(--f-mono);color:var(--clay-d);margin-bottom:12px}
+.cs-cover{padding:0;justify-content:flex-end;color:#fff;background:#222}
+.cs-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;max-width:none}
+.cs-cover::before{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.82) 0%,rgba(0,0,0,.35) 45%,transparent 70%)}
+.cs-cover::after{color:#fff;opacity:.7}
+.cs-cover-txt{position:relative;padding:0 24px 36px}
+.cs-cover h4{font-size:34px;color:#fff}
+.cs-cover h4 em{color:var(--sticky)}
+.cs-kick{display:inline-block;background:var(--sticky);color:var(--brown);font:700 11px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;padding:6px 9px;border-radius:4px;margin-bottom:12px;transform:rotate(-2deg)}
+.cs-img{margin:18px 0 14px;border-radius:10px;overflow:hidden;flex:1;min-height:0}
+.cs-img img{width:100%;height:100%;object-fit:cover;object-position:center 25%;max-width:none}
+.cs-chat{display:flex;flex-direction:column;gap:10px;margin:22px 0 14px}
+.cs-chat span{max-width:85%;padding:11px 14px;border-radius:18px;font-size:15px;line-height:1.3;font-weight:500}
+.cs-chat .me{align-self:flex-end;background:var(--clay);color:var(--ink);border-bottom-right-radius:5px}
+.cs-chat .cl{align-self:flex-start;background:#fff;color:var(--brown);border-bottom-left-radius:5px;box-shadow:0 4px 10px -6px rgba(0,0,0,.3)}
+.cs-list{display:grid;gap:8px;margin:20px 0 14px;font:600 14px/1 var(--f-mono)}
+.cs-list span{padding:11px 12px;border-radius:8px;background:#fff;color:var(--brown-m);border:1px dashed var(--line-d)}
+.cs-list span.on{background:var(--ink);color:var(--sticky);border-color:var(--ink)}
+.cs-cta{background:var(--clay);color:var(--ink)}
+.cs-cta .cs-n{color:var(--ink)}
+.cs-cta{justify-content:center}
+.cs-cta .cs-n{position:absolute;top:30px;left:26px}
+.cs-cta h4{font-size:46px}
+.cs-cta p{margin-top:16px;font-size:18px}
+.cs-cta h4 em{color:#fff}
+.cs-cta p{color:var(--ink)}
+.cs-comment{display:flex;align-items:center;gap:10px;background:#fff;color:#111;border-radius:30px;padding:8px 16px 8px 8px;margin-top:26px;font-size:16px;align-self:flex-start;box-shadow:0 10px 18px -10px rgba(0,0,0,.4);transform:rotate(-2deg)}
+.ig-arrow{position:absolute;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;border:0;background:rgba(255,255,255,.88);color:#111;display:grid;place-items:center;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:opacity .2s}
+.ig-arrow svg{width:15px;height:15px}
+.ig-arrow.prev{left:10px}.ig-arrow.next{right:10px}
+.ig-arrow[disabled]{opacity:0;pointer-events:none}
+.ig-count{position:absolute;top:12px;right:12px;background:rgba(0,0,0,.6);color:#fff;font-size:11.5px;font-weight:600;padding:4px 8px;border-radius:12px}
+.ig-bar{display:flex;align-items:center;gap:14px;padding:10px 12px 4px;position:relative}
+.ig-bar svg{width:23px;height:23px}
+.ig-save{margin-left:auto}
+.ig-dotrow{position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:4px}
+.ig-dotrow i{width:6px;height:6px;border-radius:50%;background:#c9c9c9;transition:background .2s}
+.ig-dotrow i.on{background:#3897f0}
+.ig-cap{font-size:13.5px;padding:4px 12px 14px;line-height:1.4;color:#111}
 
 .doc{position:relative;background:var(--paper);box-shadow:0 18px 30px -18px rgba(0,0,0,.5)}
 .doc-top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px 22px;border-bottom:1px solid var(--line-d);font-family:var(--f-mono);font-size:12.5px;color:var(--brown-m)}
@@ -258,22 +292,30 @@ section{padding-block:96px}
 .gap-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:22px}
 .gap-head h3{font-size:clamp(22px,2.6vw,30px);letter-spacing:-.035em}
 .gap-head .hand{font-size:24px}
-.gap-row{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;align-items:center;padding:9px 0}
-.gap-label{font-weight:600;font-size:15px}
-.gap-track{display:flex;gap:6px;width:100%}
-.gap-track.short{width:46%}
-.seg{border-radius:6px;padding:9px 10px;font-family:var(--f-mono);font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;color:var(--brown)}
+.gap-axis{display:grid;grid-template-columns:repeat(5,1fr);margin-left:166px;font:600 11px/1 var(--f-mono);color:var(--brown-m);text-transform:uppercase;letter-spacing:.08em;border-bottom:1px dashed var(--line-d);padding-bottom:8px;margin-bottom:6px}
+.gap-axis span{border-left:1px dashed var(--line-d);padding-left:6px}
+.gap-row{display:grid;grid-template-columns:150px minmax(0,1fr);gap:16px;align-items:center;padding:10px 0}
+.gap-label{font-weight:600;font-size:15px;display:flex;align-items:center;gap:8px}
+.gap-label i{font-style:normal;width:26px;height:26px;border-radius:50%;background:var(--paper);display:grid;place-items:center;font-size:13px;flex:0 0 auto}
+.gap-row.now .gap-label i{background:var(--ink);color:var(--sticky)}
+.gap-lane{display:flex;align-items:center;gap:12px;min-width:0;background:repeating-linear-gradient(90deg,transparent 0 calc(20% - 1px),rgba(42,36,32,.1) calc(20% - 1px) 20%)}
+.gap-bar{display:flex;gap:4px;width:0;flex:0 0 auto;transition:width var(--d) cubic-bezier(.3,.7,.3,1)}
+.gap.go .gap-bar{width:max(200px,calc(var(--w) - 70px))}
+.gap-time{font:800 15px/1 var(--f-display);white-space:nowrap;color:var(--brown);opacity:0;transition:opacity .4s calc(var(--d) - .2s)}
+.gap-time.hand{font-family:var(--f-hand);font-size:28px;color:var(--clay-d);transform:rotate(-4deg)}
+.gap.go .gap-time{opacity:1}
+.seg{border-radius:6px;padding:10px 10px;font-family:var(--f-mono);font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;color:var(--brown)}
 .s-idea{background:var(--sticky);flex:0 0 auto}
 .s-film{background:var(--paper);flex:0 0 auto}
-.s-post{background:var(--clay);color:var(--ink);flex:0 0 auto}
-.s-long{flex:1;background:repeating-linear-gradient(-45deg,rgba(42,36,32,.13) 0 9px,rgba(42,36,32,.04) 9px 18px)}
-.s-wait{flex:1;background:repeating-linear-gradient(-45deg,rgba(169,84,47,.2) 0 9px,rgba(169,84,47,.06) 9px 18px)}
-.s-claude{flex:1;background:var(--ink);color:var(--sticky)}
+.s-long{flex:1;background:repeating-linear-gradient(-45deg,rgba(42,36,32,.16) 0 9px,rgba(42,36,32,.05) 9px 18px)}
+.s-wait{flex:1;background:repeating-linear-gradient(-45deg,rgba(169,84,47,.24) 0 9px,rgba(169,84,47,.07) 9px 18px)}
+.s-claude{flex:1;background:var(--ink);color:var(--sticky);text-align:center}
 .gap-row.now .gap-label{color:var(--clay-d)}
 .gap-note{position:absolute;right:28px;bottom:-26px;font-size:21px;transform:rotate(3deg);width:auto}
 
 /* modules */
-.modules{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
+.modules{display:flex;flex-wrap:wrap;justify-content:center;gap:18px}
+.modules .mod{flex:0 1 calc(25% - 14px);min-width:0}
 .mod{border:1px solid var(--line);border-radius:14px;padding:24px 22px;background:var(--ink2)}
 .mod .num{display:inline-flex;flex-direction:column;align-items:center;justify-content:flex-end;width:74px;height:82px;border-radius:10px;overflow:hidden;background:var(--paper);color:var(--brown);font:800 44px/1 var(--f-display);letter-spacing:-.04em;padding-bottom:9px;box-shadow:0 10px 18px -10px rgba(0,0,0,.7);transform:rotate(-3deg)}
 .mod .num small{align-self:stretch;text-align:center;background:var(--clay);color:var(--ink);font:700 12px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;padding:7px 0 6px;margin-bottom:7px}
@@ -340,21 +382,24 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
   .hero-board{padding:56px 16px 72px}
   .ba .pol{width:clamp(130px,38vw,220px)}
   .panel,.story,.join .wrap,.faq,.pack,.head,.lab{grid-template-columns:minmax(0,1fr)}
-  .modules{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .modules .mod{flex-basis:calc(50% - 9px)}
   .how{grid-template-columns:minmax(0,1fr);max-width:520px}
   .polaroids{min-height:420px;max-width:460px}
   .pack{padding:32px 24px}
   section{padding-block:72px}
 }
 @media (max-width:520px){
-  .modules{grid-template-columns:minmax(0,1fr)}
+  .modules .mod{flex-basis:100%}
   .pair{gap:14px;flex-wrap:nowrap}
   .pair .pol{width:calc(50% - 7px);padding:6px 6px 32px}
   .pair figcaption{font-size:17px}
   .gap{padding:28px 18px 34px}
   .gap-row{grid-template-columns:minmax(0,1fr);gap:6px}
-  .gap-track.short{width:72%}
-  .seg{padding:7px 6px;font-size:10.5px}
+  .gap-axis{margin-left:0;font-size:9px;letter-spacing:.02em}
+  .gap-axis span{padding-left:3px}
+  .seg{padding:8px 5px;font-size:10px}
+  .s-idea,.s-film{flex:0 1 auto}
+  .gap-time{font-size:13px}.gap-time.hand{font-size:22px}
   .beat{grid-template-columns:minmax(0,1fr);gap:4px}
   .brand small{display:none}
   .ba .pol{padding:6px 6px 32px}
@@ -365,7 +410,9 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
   .arrow span{font-size:16px;white-space:normal}
   .hero-board .note{font-size:20px;left:5%;top:22px}
   .lab-sticker{right:-4px;font-size:19px}
-  .lab-wrap{max-width:260px}
+  .lab-wrap{max-width:210px}
+  .ba-board .sticky{display:none}
+  .hero-board .sticky{top:auto;bottom:10px;right:6%}
   .hook{line-height:1.08}
   .vars{grid-template-columns:repeat(3,minmax(150px,1fr));overflow-x:auto;padding:6px 16px 18px;margin-inline:-16px;scroll-snap-type:x mandatory}.vars .pol{scroll-snap-align:center}.vars .pol:nth-child(2){margin-top:0}
   .slash-cmds{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
@@ -610,9 +657,9 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
         <div class="prompt"><span class="tape" aria-hidden="true"></span><span class="eyebrow">What I asked for</span><p>Make 3 trial reels from this take. Open each one with a different line from the video and a different visual hook. Same edit after that.</p></div>
       </div>
       <div class="vars">
-        <figure class="pol var"><span class="tape" aria-hidden="true"></span><div class="shot hk h-a" data-segs="13.40-15.78,0-13.38"><video src="/media/hook-a.mp4" poster="/media/hook-a-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video><div class="flash" aria-hidden="true"></div><div class="vhook">Edit by <b>chatting</b></div><div class="vcap"></div></div><figcaption>A · bold claim + zoom</figcaption></figure>
-        <figure class="pol var"><span class="tape" aria-hidden="true"></span><div class="shot hk h-b" data-segs="15.92-20.80,0-13.38"><video src="/media/hook-b.mp4" poster="/media/hook-b-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video><div class="flash" aria-hidden="true"></div><div class="vhook">The <b>best part</b> first</div><div class="vcap"></div></div><figcaption>B · payoff first + flash</figcaption></figure>
-        <figure class="pol var"><span class="tape" aria-hidden="true"></span><div class="shot hk h-c" data-segs="0-13.38"><video src="/media/hook-c.mp4" poster="/media/hook-c-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video><div class="flash" aria-hidden="true"></div><div class="vhook">Raw footage <b>→ reel</b></div><div class="vcap"></div></div><figcaption>C · B&amp;W to colour</figcaption></figure>
+        <figure class="pol var"><span class="tape" aria-hidden="true"></span><div class="shot hk h-a" data-segs="13.40-15.78,0-13.38"><video src="/media/hook-a.mp4" poster="/media/hook-a-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video><div class="flash" aria-hidden="true"></div><div class="vhook">Edit by <b>chatting</b></div><div class="vcap"></div></div><figcaption>A · zoom</figcaption></figure>
+        <figure class="pol var"><span class="tape" aria-hidden="true"></span><div class="shot hk h-b" data-segs="15.92-20.80,0-13.38"><video src="/media/hook-b.mp4" poster="/media/hook-b-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video><div class="flash" aria-hidden="true"></div><div class="vhook">The <b>best part</b> first</div><div class="vcap"></div></div><figcaption>B · flash</figcaption></figure>
+        <figure class="pol var"><span class="tape" aria-hidden="true"></span><div class="shot hk h-c" data-segs="0-13.38"><video src="/media/hook-c.mp4" poster="/media/hook-c-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video><div class="flash" aria-hidden="true"></div><div class="vhook">Raw footage <b>→ reel</b></div><div class="vcap"></div></div><figcaption>C · B&amp;W</figcaption></figure>
       </div>
     </div>
 
@@ -634,18 +681,25 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
         <h3>The same video as a carousel</h3>
         <p>Claude reads the transcript, pulls out the points worth saving and lays them out as slides in my style, with a frame from the video on the cover.</p>
         <div class="prompt"><span class="tape" aria-hidden="true"></span><span class="eyebrow">What I asked for</span><p>Turn this video into a 5-slide carousel. Cover uses a frame of me. One idea per slide. End on my comment keyword.</p></div>
-        <div class="car-nav">
-          <button type="button" id="car-prev" aria-label="Previous slide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
-          <button type="button" id="car-next" aria-label="Next slide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
-        </div>
+
       </div>
       <div class="carousel">
-        <div class="track" id="track" tabindex="0" aria-label="Carousel slides">
-          <div class="slide sl-photo"><img src="/media/face-b.jpg" alt=""><span class="n">1 / 5</span><h4>This entire video was edited by <em>Claude</em></h4><span class="swipe">swipe →</span></div>
-          <div class="slide sl-sticky"><span class="n">2 / 5</span><h4>What Claude <em>did</em></h4><div class="steps-mini"><div>colour grading</div><div>logos that pop</div><div>text behind me</div></div></div>
-          <div class="slide sl-ink"><span class="n">3 / 5</span><h4>No editing app. <em>No timeline.</em></h4><p>I describe the edit in plain words. Claude builds it.</p></div>
-          <div class="slide sl-paper"><span class="n">4 / 5</span><h4>I pick every effect <em>before it renders</em></h4><div class="steps-mini"><div>1 · upload my video</div><div>2 · tick the effect I want</div><div>3 · Claude renders it</div></div></div>
-          <div class="slide sl-clay"><span class="n">5 / 5</span><h4>Want the <em>free guide?</em></h4><p>Comment “AI EDIT” and I'll send it over.</p></div>
+        <div class="ig">
+          <div class="ig-top"><span class="ig-av"><img src="/media/face-a.jpg" alt=""></span><b>shedoesai</b><span class="ig-dots" aria-hidden="true">•••</span></div>
+          <div class="ig-frame">
+            <div class="track" id="track" tabindex="0" aria-label="Carousel slides">
+              <div class="slide cs-cover"><img src="/media/raw-studio-poster.jpg" alt=""><div class="cs-cover-txt"><span class="cs-kick">How I edit now</span><h4>I don't edit my videos anymore. <em>Claude does.</em></h4></div></div>
+              <div class="slide cs-p"><span class="cs-n">01</span><h4>Film one <em>raw take</em></h4><div class="cs-img"><img src="/media/story-studio.jpg" alt=""></div><p>Phone, tripod, one take. No editing app.</p></div>
+              <div class="slide cs-p"><span class="cs-n">02</span><h4>Tell Claude <em>what you want</em></h4><div class="cs-chat"><span class="me">add captions + zoom on the punchline</span><span class="cl">Done ✦ preview ready</span><span class="me">make the colours warmer</span><span class="cl">✓ colour grade added</span></div><p>Plain words. Like texting a friend.</p></div>
+              <div class="slide cs-p"><span class="cs-n">03</span><h4>Pick the effects <em>you like</em></h4><div class="cs-list"><span class="on">✓ captions</span><span class="on">✓ punch zoom</span><span>sound effects</span><span class="on">✓ colour grade</span></div><p>Preview first. Render only what you keep.</p></div>
+              <div class="slide cs-cta"><span class="cs-n">04</span><h4>Want my <em>setup?</em></h4><div class="cs-comment"><span class="ig-av"><img src="/media/face-a.jpg" alt=""></span><span>Comment <b>“AI EDIT”</b></span></div><p>and I'll send it over.</p></div>
+            </div>
+            <button type="button" class="ig-arrow prev" id="car-prev" aria-label="Previous slide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+            <button type="button" class="ig-arrow next" id="car-next" aria-label="Next slide"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+            <span class="ig-count" id="ig-count">1/5</span>
+          </div>
+          <div class="ig-bar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M20 12a8 8 0 1 1-3.3-6.5L20 4l-1 4a8 8 0 0 1 1 4z"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M21 3L10 14M21 3l-7 18-4-7-7-4z"/></svg><span class="ig-dotrow" id="ig-dotrow"><i class="on"></i><i></i><i></i><i></i><i></i></span><svg class="ig-save" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4z"/></svg></div>
+          <p class="ig-cap"><b>shedoesai</b> Made from the same raw video as the reel. Comment “AI EDIT” for my setup ✦</p>
         </div>
       </div>
     </div>
@@ -675,17 +729,18 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
     <div class="gap board">
       <span class="tape" aria-hidden="true"></span>
       <div class="gap-head"><h3>From idea to <em>posted</em></h3><span class="hand">the part this challenge shrinks</span></div>
-      <div class="gap-row">
-        <span class="gap-label">Editing it myself</span>
-        <div class="gap-track"><span class="seg s-idea">idea</span><span class="seg s-film">film</span><span class="seg s-long">edit, edit, edit, export</span><span class="seg s-post">post</span></div>
+      <div class="gap-axis" aria-hidden="true"><span>day 1</span><span>day 2</span><span>day 3</span><span>day 4</span><span>day 5</span></div>
+      <div class="gap-row" style="--w:52%;--d:1.4s">
+        <span class="gap-label"><i>✂</i>Editing it myself</span>
+        <div class="gap-lane"><div class="gap-bar"><span class="seg s-idea">idea</span><span class="seg s-film">film</span><span class="seg s-long">hours of editing</span></div><span class="gap-time">1–2 days</span></div>
       </div>
-      <div class="gap-row">
-        <span class="gap-label">With an editor</span>
-        <div class="gap-track"><span class="seg s-idea">idea</span><span class="seg s-film">film</span><span class="seg s-wait">send · wait · feedback · wait</span><span class="seg s-post">post</span></div>
+      <div class="gap-row" style="--w:88%;--d:1.8s">
+        <span class="gap-label"><i>⏳</i>With an editor</span>
+        <div class="gap-lane"><div class="gap-bar"><span class="seg s-idea">idea</span><span class="seg s-film">film</span><span class="seg s-wait">send · wait · feedback · wait</span></div><span class="gap-time">days of waiting</span></div>
       </div>
-      <div class="gap-row now">
-        <span class="gap-label">With Claude</span>
-        <div class="gap-track short"><span class="seg s-idea">idea</span><span class="seg s-film">film</span><span class="seg s-claude">Claude edits ✦</span><span class="seg s-post">post</span></div>
+      <div class="gap-row now" style="--w:24%;--d:.6s">
+        <span class="gap-label"><i>✦</i>With Claude</span>
+        <div class="gap-lane"><div class="gap-bar"><span class="seg s-idea">idea</span><span class="seg s-film">film</span><span class="seg s-claude">Claude ✦</span></div><span class="gap-time hand">same day!</span></div>
       </div>
     </div>
   </div>
@@ -695,7 +750,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
   <div class="wrap">
     <div class="head">
       <h2>7 days, one <em>finished reel</em></h2>
-      <p>One short lesson and one small task a day. Built for people who have watched the courses but never got started, or never opened an editing app and don't want to.</p>
+      <p>A new lesson drops every day, starting the day you join. Follow the 7 days, or go at your own pace. Built for people who have watched the courses but never got started, or never opened an editing app and don't want to.</p>
     </div>
     <div class="modules">
       <div class="mod"><div class="num"><small>Day</small>1</div><h3>Set up</h3><p>Get Claude ready to edit video and run your first test edit. You only do this once.</p></div>
@@ -705,7 +760,6 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
       <div class="mod"><div class="num"><small>Day</small>5</div><h3>Make it pop</h3><p>Add effects, pop-ups and sound, and ask for changes in plain words.</p></div>
       <div class="mod"><div class="num"><small>Day</small>6</div><h3>Make it yours</h3><p>Pick your look, add your colours and fonts, and save it as your style.</p></div>
       <div class="mod"><div class="num"><small>Day</small>7</div><h3>Post it</h3><p>Export for Instagram and TikTok and post your first Claude-edited reel.</p></div>
-      <div class="mod mod-note"><div class="num"><small>Every</small>day</div><h3>A new lesson every day</h3><p>A new lesson drops every day for 7 days, starting the day you join. No start date, nothing live. Fall behind? Your lessons wait for you.</p></div>
     </div>
 
     <div class="pack board">
@@ -783,7 +837,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
       <details><summary>What do I need to film?</summary><p>Just your phone and a tripod (a cheap one is fine). No fancy camera, no lights, no studio. I show you the few simple things that make a big difference.</p></details>
       <details><summary>Which Claude plan do I need?</summary><p>The Claude Pro plan, about $20 a month. That's the cheapest paid plan and it's all you need. Day 1 walks you through the setup step by step, click by click.</p></details>
       <details><summary>Does it work with ChatGPT too?</summary><p>Yes. The same setup works with ChatGPT, and I've edited videos with it too. Claude is just my favourite, so that's what I show you in the challenge.</p></details>
-      <details><summary>How much time does it take?</summary><p>One short lesson and one task a day for 7 days. A new lesson drops each day from the day you join. Everything is pre-recorded, so you watch it whenever it suits you.</p></details>
+      <details><summary>How much time does it take?</summary><p>One short lesson and one task a day. A new lesson drops each day from the day you join. Follow along for the 7 days, or go at your own pace. Your lessons stay open.</p></details>
       <details><summary>When does it open?</summary><p>Soon. People on the waitlist get the email first, with the waitlist price.</p></details>
     </div>
   </div>
@@ -966,9 +1020,18 @@ tabs.forEach(t => t.addEventListener("click", () => {
 
 // Carousel arrows
 const track = document.getElementById("track");
-const step = () => track.querySelector(".slide").getBoundingClientRect().width + 18;
-document.getElementById("car-prev").addEventListener("click", () => track.scrollBy({left: -step(), behavior: "smooth"}));
-document.getElementById("car-next").addEventListener("click", () => track.scrollBy({left: step(), behavior: "smooth"}));
+const step = () => track.clientWidth || 1;
+const cPrev = document.getElementById("car-prev"), cNext = document.getElementById("car-next");
+cPrev.addEventListener("click", () => track.scrollBy({left: -step(), behavior: "smooth"}));
+cNext.addEventListener("click", () => track.scrollBy({left: step(), behavior: "smooth"}));
+const igDots = [...document.querySelectorAll("#ig-dotrow i")], igCount = document.getElementById("ig-count");
+const syncCar = () => {
+  const i = Math.round(track.scrollLeft / step()), n = igDots.length;
+  igDots.forEach((d, k) => d.classList.toggle("on", k === i));
+  igCount.textContent = (i + 1) + "/" + n;
+  cPrev.disabled = i <= 0; cNext.disabled = i >= n - 1;
+};
+track.addEventListener("scroll", syncCar, {passive: true}); syncCar();
 
 // Proof reels: tap to toggle sound on one at a time.
 document.querySelectorAll('.reels .shot').forEach(shot=>{
@@ -994,6 +1057,10 @@ document.querySelectorAll('.reels .shot').forEach(shot=>{
   };
   [h, v, w].forEach(el => el.addEventListener("input", upd)); upd();
 })();
+
+// Idea-to-posted bars grow when scrolled into view
+const gapEl = document.querySelector(".gap");
+if (gapEl) { if ("IntersectionObserver" in window) { const io = new IntersectionObserver(e => { if (e[0].isIntersecting) { gapEl.classList.add("go"); io.disconnect(); } }, {threshold: .4}); io.observe(gapEl); } else gapEl.classList.add("go"); }
 </script>
 
 </body></html>
