@@ -394,6 +394,21 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 .ba-board .note{left:4%;top:4%}
 .never{margin:56px auto 0;max-width:24ch;text-wrap:balance;text-align:center;font-family:var(--f-hand);font-weight:700;font-size:clamp(34px,4.4vw,58px);line-height:1.05;color:var(--brown);transform:rotate(-1.5deg)}
 @media (max-width:640px){.reels .pol:nth-child(4),.reels .pol:nth-child(5){margin-top:0}.reels{flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;padding:10px 16px 24px;margin-inline:-16px;scroll-snap-type:x mandatory}.reels .pol{flex:0 0 62%;scroll-snap-align:center}.reels .pol:nth-child(2){margin-top:0}}
+/* time calculator */
+.calc{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center}
+.calc-in{display:grid;gap:30px}
+.sl{display:grid;grid-template-columns:1fr auto;gap:10px 16px;align-items:baseline;font-size:17px;color:var(--muted)}
+.sl b{font-family:var(--f-hand);font-weight:700;font-size:34px;color:var(--clay);line-height:1;min-width:2.6em;text-align:right}
+.sl input{grid-column:1/-1;width:100%;accent-color:var(--clay);height:28px;cursor:pointer}
+.calc-out{position:relative;background:var(--paper);color:var(--brown);padding:40px 34px 34px;box-shadow:0 28px 44px -24px rgba(0,0,0,.8);transform:rotate(-1.2deg)}
+.calc-out .tape{left:50%}
+.calc-out .k{font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--clay-d)}
+.calc-out .big{font-family:var(--f-display);font-weight:800;font-size:clamp(54px,7vw,92px);line-height:1;letter-spacing:-.05em;margin:8px 0 6px}
+.calc-out .big span{display:inline-block;transition:transform .15s}
+.calc-out .sub{font-size:19px;color:var(--brown-m)}
+.calc-out .sub b{color:var(--brown)}
+.calc-out .hand-note{font-family:var(--f-hand);font-weight:700;font-size:28px;line-height:1.05;color:var(--clay-d);margin:22px 0 24px;transform:rotate(-1.5deg)}
+@media (max-width:860px){.calc{grid-template-columns:minmax(0,1fr);gap:40px}}
 </style>
 </head><body>
 
@@ -690,6 +705,33 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
   </div>
 </section>
 
+<section id="time">
+  <div class="wrap">
+    <div class="head">
+      <h2>How much time does editing <em>cost you?</em></h2>
+      <p>Be honest. Drag the sliders and see what editing takes out of your month.</p>
+    </div>
+    <div class="calc">
+      <div class="calc-in">
+        <label class="sl"><span>Hours I spend editing one video</span><b id="o-h">3 h</b>
+          <input type="range" id="i-h" min="0.5" max="10" step="0.5" value="3" aria-describedby="o-h"></label>
+        <label class="sl"><span>Videos I post a week</span><b id="o-v">3</b>
+          <input type="range" id="i-v" min="1" max="7" step="1" value="3" aria-describedby="o-v"></label>
+        <label class="sl"><span>Days from filming to posting</span><b id="o-w">0</b>
+          <input type="range" id="i-w" min="0" max="7" step="1" value="2" aria-describedby="o-w"></label>
+      </div>
+      <div class="calc-out" aria-live="polite">
+        <span class="tape" aria-hidden="true"></span>
+        <p class="k">every month you spend</p>
+        <p class="big"><span id="r-h">39</span> hours</p>
+        <p class="sub">editing. That's <b id="r-d">5 full workdays</b><span id="r-w"></span>.</p>
+        <p class="hand-note">That's the time I got back. Imagine what you'd film with it.</p>
+        <a class="cta" href="#join">Join the waitlist <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="join board" id="join">
   <div class="wrap">
     <div><p class="eyebrow" style="margin-bottom:14px">The Claude Editing Challenge</p><h2>Get in before the <em>doors open</em></h2><p class="join-sub">7 days from idea to finished reel.</p></div>
@@ -913,6 +955,21 @@ document.querySelectorAll('.reels .shot').forEach(shot=>{
     if(on){v.muted=false;v.currentTime=0;v.play();tap.textContent='sound on';}
   });
 });
+// Time calculator
+(() => {
+  const h = document.getElementById("i-h"), v = document.getElementById("i-v"), w = document.getElementById("i-w");
+  const fmt = n => (Math.round(n * 10) / 10).toString().replace(/\.0$/, "");
+  const upd = () => {
+    const hrs = +h.value * +v.value * 4.33, days = hrs / 8;
+    document.getElementById("o-h").textContent = fmt(+h.value) + " h";
+    document.getElementById("o-v").textContent = v.value;
+    document.getElementById("o-w").textContent = w.value;
+    document.getElementById("r-h").textContent = Math.round(hrs);
+    document.getElementById("r-d").textContent = days < 1 ? "most of a workday" : Math.round(days) + (Math.round(days) === 1 ? " full workday" : " full workdays");
+    document.getElementById("r-w").textContent = +w.value ? ", and every video goes out " + w.value + (w.value === "1" ? " day" : " days") + " after you filmed it" : "";
+  };
+  [h, v, w].forEach(el => el.addEventListener("input", upd)); upd();
+})();
 </script>
 
 </body></html>
