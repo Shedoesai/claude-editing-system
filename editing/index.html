@@ -114,50 +114,74 @@ section{padding-block:96px}
 .lab{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:64px;align-items:center}
 .lab-wrap{position:relative;justify-self:center;width:100%;max-width:450px}
 .lab-wrap .pol{transform:rotate(-2deg);padding-bottom:12px}
-.lab-frame{position:relative;width:100%;aspect-ratio:720/747;overflow:hidden;background:#000}
-.lab-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none;transition:filter .35s ease, transform .35s ease}
-.lab-frame .grain{position:absolute;inset:0;opacity:0;pointer-events:none;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-.lab-sticker{position:absolute;z-index:4;top:-20px;right:-18px;font-size:22px;transform:rotate(6deg);padding:10px 14px}
-.cap{position:absolute;left:0;right:0;bottom:9%;display:flex;justify-content:center;z-index:2;padding:0 6%;text-align:center}
-.s-hormozi img{filter:saturate(1.35) contrast(1.08);transform:scale(1.1)}
-.cap-h{font-family:var(--f-display);font-weight:800;text-transform:uppercase;font-size:clamp(24px,3.4vw,38px);line-height:1;color:#fff;-webkit-text-stroke:2px #000;paint-order:stroke fill;text-shadow:0 4px 0 #000;letter-spacing:-.02em}
-.cap-h span{color:#FFE11A;display:inline-block;transform:scale(1.12) rotate(-2deg);margin:0 .18em}
-.s-ali img{filter:saturate(.85) brightness(1.08) sepia(.12)}
-.cap-a{display:flex;gap:12px;align-items:center;background:#FFF6EE;color:#3B2A2A;border-radius:18px;padding:12px 16px;box-shadow:0 10px 24px -10px rgba(0,0,0,.35);text-align:left;font-family:var(--f-display)}
-.cap-a .ic{width:38px;height:38px;border-radius:12px;background:#FFD7E4;display:grid;place-items:center;flex:none}
-.cap-a .ic svg{width:20px;height:20px;color:#B4436C}
-.cap-a b{display:block;font-size:16px;font-weight:800;letter-spacing:-.02em}
-.cap-a small{font-size:12.5px;opacity:.75}
-.pop{position:absolute;z-index:2;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;box-shadow:0 8px 18px -8px rgba(0,0,0,.4)}
-.pop svg{width:22px;height:22px}
-.s-koe img{filter:grayscale(1) contrast(1.2) brightness(.9)}
-.s-koe .grain{opacity:.35}
-.cap-d{font-family:var(--f-display);font-weight:300;font-size:clamp(17px,2vw,21px);color:#fff}
-.cap-d .cur{display:inline-block;width:2px;height:1.1em;background:#fff;vertical-align:-3px;margin-left:3px;animation:blink 1s steps(1) infinite}
+.lab-frame{position:relative;width:100%;aspect-ratio:9/16;overflow:hidden;background:#000;--b-hi:#E08A5F;--b-bg:#151311;--b-text:#F2ECE3;--b-font:var(--f-display);--b-weight:800}
+.lab-wrap{max-width:340px}
+.lab-zoom{position:absolute;inset:0;transition:transform .28s cubic-bezier(.2,.9,.3,1.3)}
+.lab-zoom video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;max-width:none;transition:filter .4s ease}
+.fx-zoom .lab-zoom.punch{transform:scale(1.14)}
+.fx-color video{filter:contrast(1.12) saturate(1.3) sepia(.12) brightness(1.03)}
+.grade{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .4s;background:radial-gradient(120% 80% at 50% 40%,transparent 55%,rgba(20,8,0,.45));mix-blend-mode:multiply}
+.fx-color .grade{opacity:1}
+.cap{position:absolute;left:0;right:0;bottom:17%;display:flex;justify-content:center;z-index:3;padding:0 7%;text-align:center;pointer-events:none}
+.cap-w{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;font-family:var(--b-font);font-weight:var(--b-weight);font-size:clamp(19px,2.3vw,25px);line-height:1;letter-spacing:-.02em;text-transform:uppercase}
+.cap-w span{background:var(--b-bg);color:var(--b-text);padding:5px 8px;border-radius:7px;transition:background .1s,transform .1s}
+.cap-w span.on{background:var(--b-hi);color:var(--b-bg);transform:scale(1.08) rotate(-2deg)}
+.hook{position:absolute;z-index:3;top:11%;left:7%;right:7%;text-align:center;font-family:var(--b-font);font-weight:var(--b-weight);font-size:clamp(24px,2.9vw,32px);line-height:1.02;letter-spacing:-.03em;color:#fff;text-shadow:0 3px 0 rgba(0,0,0,.55),0 0 24px rgba(0,0,0,.4);opacity:0;transform:translateY(-8px) scale(.94);transition:opacity .25s,transform .35s cubic-bezier(.2,.9,.3,1.4)}
+.hook b{color:var(--b-hi);font-weight:inherit}
+.hook.show{opacity:1;transform:none}
+#lab-pops{position:absolute;inset:0;z-index:3;pointer-events:none}
+.pop{position:absolute;display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:12px;background:var(--paper);color:var(--brown);font:800 15px var(--f-display);letter-spacing:-.01em;box-shadow:0 10px 22px -8px rgba(0,0,0,.55);animation:popin .45s cubic-bezier(.2,.9,.3,1.6) both}
+.pop.hi{background:var(--b-hi);color:var(--b-bg)}
+.pop svg{width:16px;height:16px}
+.pop.out{animation:popout .25s ease forwards}
+@keyframes popin{from{opacity:0;transform:scale(.3) rotate(-12deg)}to{opacity:1;transform:scale(1) rotate(var(--r,-4deg))}}
+@keyframes popout{to{opacity:0;transform:scale(.6)}}
+.lab-sound{position:absolute;z-index:4;right:8px;bottom:8px;appearance:none;border:0;cursor:pointer;font:600 11.5px var(--f-display);padding:5px 10px;border-radius:999px;background:rgba(21,19,17,.72);color:var(--cream)}
+.slash{background:var(--ink2);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 24px 40px -24px rgba(0,0,0,.8)}
+.slash-top{display:flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:12px;color:var(--muted);margin-bottom:12px}
+.slash-dot{width:9px;height:9px;border-radius:50%;background:var(--clay)}
+.slash-input{display:flex;align-items:center;min-height:50px;background:var(--ink);border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-family:var(--f-mono);font-size:15px;color:var(--cream);margin-bottom:14px}
+.slash-input .ph{color:var(--muted)}
+.caret{display:inline-block;width:2px;height:1.15em;background:var(--clay);margin-left:2px;animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
-.s-gary img{filter:contrast(1.15) saturate(1.2)}
-.cap-g{display:flex;flex-direction:column;align-items:center;gap:6px}
-.cap-g b{font-family:var(--f-display);font-weight:800;font-size:clamp(20px,2.8vw,30px);color:#fff;background:#111;padding:4px 12px;text-transform:uppercase;letter-spacing:-.02em}
-.cap-g small{font-family:var(--f-display);font-weight:800;font-size:12.5px;color:#111;background:#FFE11A;padding:3px 8px;text-transform:uppercase}
-.cap-b{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;font-family:var(--b-font);font-weight:var(--b-weight,800);font-size:clamp(22px,3.2vw,32px);line-height:1;letter-spacing:-.02em}
-.cap-b span{background:var(--b-bg);color:var(--b-text);padding:5px 9px;border-radius:8px}
-.cap-b span.hi{background:var(--b-hi)}
-.styles{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 22px}
-.styles button{appearance:none;border:1px solid var(--line);background:transparent;color:var(--cream);font:400 15px var(--f-display);padding:10px 17px;border-radius:999px;cursor:pointer;transition:background .15s ease,border-color .15s ease}
-.styles button:hover{border-color:var(--muted)}
-.styles button[aria-pressed="true"]{background:var(--cream);color:var(--ink);border-color:var(--cream);font-weight:600}
-.styles button.mine{border-color:var(--clay);color:var(--clay)}
-.styles button.mine[aria-pressed="true"]{background:var(--clay);color:var(--ink)}
-.style-desc{min-height:3.4em;font-size:18px;color:var(--muted)}
-.style-desc b{color:var(--cream)}
-.brand-kit{margin-top:18px;background:var(--ink2);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:12px}
+.slash-cmds{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.slash-cmds button{appearance:none;text-align:left;border:1px solid var(--line);background:transparent;color:var(--cream);border-radius:12px;padding:10px 12px;cursor:pointer;display:grid;gap:2px;transition:background .15s,border-color .15s}
+.slash-cmds button:hover{border-color:var(--muted)}
+.slash-cmds b{font-family:var(--f-mono);font-size:14.5px;font-weight:600}
+.slash-cmds span{font-size:12.5px;color:var(--muted)}
+.slash-cmds button[aria-pressed="true"]{background:var(--clay);border-color:var(--clay);color:var(--ink)}
+.slash-cmds button[aria-pressed="true"] span{color:rgba(21,19,17,.75)}
+.slash-cmds button[aria-pressed="true"] b::after{content:" ✓"}
+.slash-reset{appearance:none;background:none;border:0;color:var(--muted);font:400 13px var(--f-display);text-decoration:underline;cursor:pointer;margin-top:12px;padding:0}
+.brand-kit{margin-top:12px;background:var(--ink);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:12px}
 .kit-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
 .kit-row label{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:400}
 .kit-row input[type=color]{width:38px;height:32px;border:1px solid var(--line);border-radius:8px;padding:2px;background:var(--ink);cursor:pointer}
-.kit-row select{font:400 14px var(--f-display);padding:7px 10px;border-radius:8px;border:1px solid var(--line);background:var(--ink);color:var(--cream)}
+.kit-row select{font:400 14px var(--f-display);padding:7px 10px;border-radius:8px;border:1px solid var(--line);background:var(--ink2);color:var(--cream)}
 .swatches{display:flex;gap:8px}
 .swatches button{width:30px;height:30px;border-radius:50%;border:2px solid var(--ink);outline:1px solid var(--line);cursor:pointer;padding:0}
-.lab-note{font-size:13.5px;margin-top:18px;color:var(--muted)}
+.vars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;align-items:start}
+.vars .pol:nth-child(1){transform:rotate(-2.5deg)}
+.vars .pol:nth-child(2){transform:rotate(1.5deg);margin-top:18px}
+.vars .pol:nth-child(3){transform:rotate(-1deg)}
+.vhook{position:absolute;z-index:2;top:10%;left:6%;right:6%;text-align:center;font:800 clamp(14px,1.6vw,19px)/1.05 var(--f-display);letter-spacing:-.02em;color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.6),0 0 16px rgba(0,0,0,.45)}
+.vhook b{color:var(--sticky);font-weight:inherit}
+.vcap{position:absolute;z-index:2;left:6%;right:6%;bottom:14%;display:flex;flex-wrap:wrap;gap:3px;justify-content:center;font:800 clamp(11px,1.15vw,14px)/1 var(--f-display);text-transform:uppercase}
+.vcap span{padding:3px 5px;border-radius:5px;background:#151311;color:#F2ECE3}
+.vcap span.on{background:#E08A5F;color:#151311}
+.v-clean video{filter:brightness(1.04) saturate(.9)}
+.v-clean .vcap{font-family:var(--f-display);font-weight:600;text-transform:none}
+.v-clean .vcap span{background:rgba(255,255,255,.92);color:#222}
+.v-clean .vcap span.on{background:#fff;color:#000;text-decoration:underline 2px}
+.v-bold video{filter:contrast(1.15) saturate(1.25)}
+.v-bold .vcap{font-size:clamp(14px,1.5vw,18px)}
+.v-bold .vcap span{background:none;color:#fff;-webkit-text-stroke:1.5px #000;paint-order:stroke fill;text-shadow:0 3px 0 #000;padding:0 2px}
+.v-bold .vcap span.on{color:#FFE11A;background:none}
+.v-pop video{filter:saturate(1.3) brightness(1.04) sepia(.08)}
+.v-pop .vcap span{background:#FFF6EE;color:#B4436C;border-radius:9px}
+.v-pop .vcap span.on{background:#FFD7E4}
+.v-pop::after{content:"✦";position:absolute;z-index:2;top:34%;right:10%;font-size:26px;color:var(--sticky);animation:popin 1.2s cubic-bezier(.2,.9,.3,1.6) infinite alternate}
+.lab-note{font-size:13.5px;margin-top:16px;color:var(--muted)}
 
 .how{margin-top:96px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
 .how > div{position:relative;background:var(--paper);color:var(--brown);padding:30px 24px 26px;box-shadow:0 18px 30px -18px rgba(0,0,0,.6)}
@@ -336,6 +360,10 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
   .arrow span{font-size:16px;white-space:normal}
   .hero-board .note{font-size:20px;left:5%;top:22px}
   .lab-sticker{right:-4px;font-size:19px}
+  .lab-wrap{max-width:260px}
+  .hook{line-height:1.08}
+  .vars{grid-template-columns:repeat(3,minmax(150px,1fr));overflow-x:auto;padding:6px 16px 18px;margin-inline:-16px;scroll-snap-type:x mandatory}.vars .pol{scroll-snap-align:center}.vars .pol:nth-child(2){margin-top:0}
+  .slash-cmds{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .join .sticky{right:0;top:-40px;width:120px;font-size:18px}
   .label{font-size:9px;top:6px;left:6px}
   .sound{font-size:11px;padding:5px 9px;bottom:6px;right:6px}
@@ -449,61 +477,68 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 <section id="style">
   <div class="wrap">
     <div class="head">
-      <h2>Won't every Claude edit look the <em>same?</em></h2>
-      <p>Only if you let it. Claude can edit in the style of the creators you love, or in a style that's only yours. Tap a style and watch the same shot change.</p>
+      <h2>Type an effect. <em>Watch it happen.</em></h2>
+      <p>No timeline, no editing app. You type what you want, Claude previews it on your video, and you keep what you like. Tap a command and watch my raw clip change.</p>
     </div>
 
     <div class="lab">
       <div class="lab-wrap">
-        <span class="sticky lab-sticker" id="lab-label">Hormozi-style</span>
+        <span class="sticky lab-sticker" id="lab-label">raw file</span>
         <div class="pol">
           <span class="tape" aria-hidden="true"></span>
-          <div class="lab-frame s-hormozi" id="lab-frame">
-            <img src="/media/face-a.jpg" alt="Still of Gunhild from her reel, restyled in the selected editing style">
-            <div class="grain" aria-hidden="true"></div>
+          <div class="lab-frame" id="lab-frame">
+            <div class="lab-zoom" id="lab-zoom"><video id="lab-video" src="/media/raw-studio.mp4" poster="/media/raw-studio-poster.jpg" autoplay muted loop playsinline preload="auto" aria-label="My raw clip with the effects you pick layered on top"></video></div>
+            <div class="grade" aria-hidden="true"></div>
+            <div class="hook" id="lab-hook" aria-hidden="true"></div>
             <div id="lab-pops" aria-hidden="true"></div>
-            <div class="cap" id="lab-cap"></div>
+            <div class="cap" id="lab-cap" aria-hidden="true"></div>
+            <button type="button" class="lab-sound" id="lab-sound" aria-pressed="false">tap for sound</button>
           </div>
         </div>
       </div>
       <div>
-        <div class="styles" role="group" aria-label="Editing style">
-          <button type="button" data-style="hormozi" aria-pressed="true">Hormozi</button>
-          <button type="button" data-style="gary" aria-pressed="false">GaryVee</button>
-          <button type="button" data-style="ali" aria-pressed="false">Ali Abdaal</button>
-          <button type="button" data-style="koe" aria-pressed="false">Dan Koe</button>
-          <button type="button" data-style="brand" class="mine" aria-pressed="false">✦ Your brand</button>
-        </div>
-        <p class="style-desc" id="style-desc"></p>
-        <div class="brand-kit" id="brand-kit" hidden>
-          <div class="kit-row">
-            <span class="eyebrow" style="font-size:11px">Try a palette</span>
-            <div class="swatches" id="swatches">
-              <button type="button" aria-label="Clay palette" data-p="#E08A5F,#151311,#F2ECE3" style="background:#E08A5F"></button>
-              <button type="button" aria-label="Butter palette" data-p="#F3C969,#2A2420,#F7F1E6" style="background:#F3C969"></button>
-              <button type="button" aria-label="Sage palette" data-p="#9DB49A,#1E1B18,#F2ECE3" style="background:#9DB49A"></button>
-              <button type="button" aria-label="Denim palette" data-p="#7FA7C9,#151311,#F2ECE3" style="background:#7FA7C9"></button>
+        <div class="slash">
+          <div class="slash-top"><span class="slash-dot" aria-hidden="true"></span>Claude · editing raw-file.mov</div>
+          <div class="slash-input" aria-live="polite"><span id="slash-typed">Type / to add an effect</span><span class="caret" aria-hidden="true"></span></div>
+          <div class="slash-cmds" role="group" aria-label="Effects">
+            <button type="button" data-fx="captions" aria-pressed="false"><b>/captions</b><span>word by word</span></button>
+            <button type="button" data-fx="zoom" aria-pressed="false"><b>/zoom</b><span>punch in on every line</span></button>
+            <button type="button" data-fx="popups" aria-pressed="false"><b>/pop-ups</b><span>when I say it, it pops</span></button>
+            <button type="button" data-fx="color" aria-pressed="false"><b>/color</b><span>warm colour grade</span></button>
+            <button type="button" data-fx="hook" aria-pressed="false"><b>/hook</b><span>big title in the first 3 sec</span></button>
+            <button type="button" data-fx="brand" aria-pressed="false" class="mine"><b>/my-style</b><span>your colours + font</span></button>
+          </div>
+          <div class="brand-kit" id="brand-kit" hidden>
+            <div class="kit-row">
+              <span class="eyebrow" style="font-size:11px">Try a palette</span>
+              <div class="swatches" id="swatches">
+                <button type="button" aria-label="Clay palette" data-p="#E08A5F,#151311,#F2ECE3" style="background:#E08A5F"></button>
+                <button type="button" aria-label="Butter palette" data-p="#F3C969,#2A2420,#F7F1E6" style="background:#F3C969"></button>
+                <button type="button" aria-label="Sage palette" data-p="#9DB49A,#1E1B18,#F2ECE3" style="background:#9DB49A"></button>
+                <button type="button" aria-label="Denim palette" data-p="#7FA7C9,#151311,#F2ECE3" style="background:#7FA7C9"></button>
+              </div>
+            </div>
+            <div class="kit-row">
+              <label><input type="color" id="c-hi" value="#E08A5F"> Highlight</label>
+              <label><input type="color" id="c-bg" value="#151311"> Caption</label>
+              <label><input type="color" id="c-tx" value="#F2ECE3"> Text</label>
+              <label>Font
+                <select id="c-font">
+                  <option value="display">Bold and clean</option>
+                  <option value="hand">Handwritten</option>
+                  <option value="mono">Typewriter</option>
+                </select></label>
             </div>
           </div>
-          <div class="kit-row">
-            <label><input type="color" id="c-hi" value="#E08A5F"> Highlight</label>
-            <label><input type="color" id="c-bg" value="#151311"> Caption</label>
-            <label><input type="color" id="c-tx" value="#F2ECE3"> Text</label>
-            <label>Font
-              <select id="c-font">
-                <option value="display">Bold and clean</option>
-                <option value="hand">Handwritten</option>
-                <option value="mono">Typewriter</option>
-              </select></label>
-          </div>
+          <button type="button" class="slash-reset" id="slash-reset">Back to the raw file</button>
         </div>
-        <p class="lab-note">Previews show each look on a still from my reel. In the challenge you build them as real edits.</p>
+        <p class="lab-note">A live preview in your browser. In the challenge, Claude renders these as a real edit of your own video.</p>
       </div>
     </div>
 
     <div class="how">
       <div><span class="tape" aria-hidden="true"></span><span class="k">step 1</span><h3>Upload your brand</h3><p>Give Claude your colours and fonts once. Every caption, pop-up and title uses them from then on.</p></div>
-      <div><span class="k">step 2</span><h3>Mix what you love</h3><p>Hormozi's captions, Ali's pop-ups, Dan Koe's colours. Borrow pieces instead of copying one creator.</p></div>
+      <div><span class="k">step 2</span><h3>Type the effects</h3><p>/zoom, /pop-ups, /captions. Claude shows you a preview of each one before anything renders.</p></div>
       <div><span class="tape" aria-hidden="true" style="transform:translateX(-50%) rotate(3deg)"></span><span class="k">step 3</span><h3>Save it as your style</h3><p>Your look becomes a skill in Claude, so every new video comes out looking like you.</p></div>
     </div>
   </div>
@@ -512,33 +547,39 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
 <section class="board" id="outputs">
   <div class="wrap">
     <div class="head">
-      <h2>One video. <em>Three</em> things to post.</h2>
-      <p>The reel is only the start. I'll show you how the same video becomes a carousel and the script for your next one, so one filming day keeps feeding your week.</p>
+      <h2>One raw file. <em>Many</em> ways to post it.</h2>
+      <p>With my AI editing system, Claude makes the versions for you: different hooks, different looks, a carousel. Test them as trial reels before you post, instead of guessing which one works.</p>
     </div>
 
-    <div class="tabs" role="tablist" aria-label="What Claude made">
-      <button role="tab" id="t-reel" aria-selected="true" aria-controls="p-reel" type="button">The reel <span class="mono">0:20</span></button>
+    <div class="tabs" role="tablist" aria-label="What Claude made from one raw file">
+      <button role="tab" id="t-hooks" aria-selected="true" aria-controls="p-hooks" type="button">3 hooks <span class="mono">trial reels</span></button>
+      <button role="tab" id="t-looks" aria-selected="false" aria-controls="p-looks" type="button">3 looks <span class="mono">same take</span></button>
       <button role="tab" id="t-car" aria-selected="false" aria-controls="p-car" type="button">The carousel <span class="mono">5 slides</span></button>
-      <button role="tab" id="t-script" aria-selected="false" aria-controls="p-script" type="button">The next script <span class="mono">~40 sec</span></button>
     </div>
 
-    <div class="panel" role="tabpanel" id="p-reel" aria-labelledby="t-reel">
+    <div class="panel" role="tabpanel" id="p-hooks" aria-labelledby="t-hooks">
       <div class="panel-copy">
-        <h3>I pick, Claude renders</h3>
-        <p>Claude did the colour grading, made the logos pop and put text behind me. Before anything renders, I see three versions of each effect side by side and tick the one I want.</p>
-        <div class="prompt"><span class="tape" aria-hidden="true"></span><span class="eyebrow">What I asked for</span><p>Colour grade it, make the logos pop when I say them and put text behind me. Show me three versions of each effect before you render.</p></div>
+        <h3>Same video, three openings</h3>
+        <p>The first three seconds decide everything, and you never know which hook will land. Claude cuts the same video with three different openings. Post them as trial reels and keep the one that wins.</p>
+        <div class="prompt"><span class="tape" aria-hidden="true"></span><span class="eyebrow">What I asked for</span><p>Give me 3 versions of this video with different hooks in the first 3 seconds. Same edit after that.</p></div>
       </div>
-      <div class="pair">
-        <figure class="pol">
-          <span class="tape" aria-hidden="true"></span>
-          <div class="shot"><span class="label">Preview</span><img src="/media/picker.jpg" alt="Effect preview screen: three versions of each effect with tick boxes"></div>
-          <figcaption>three versions, I tick one</figcaption>
-        </figure>
-        <figure class="pol">
-          <span class="tape" aria-hidden="true" style="transform:translateX(-50%) rotate(4deg)"></span>
-          <div class="shot"><span class="label on">Final</span><img src="/media/claude-edit-poster.jpg" alt="Finished reel with Edited by Claude title and captions"></div>
-          <figcaption>rendered with my picks</figcaption>
-        </figure>
+      <div class="vars">
+        <figure class="pol var"><span class="tape" aria-hidden="true"></span><div class="shot v-a"><video src="/media/raw-studio.mp4" poster="/media/raw-studio-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video><div class="vhook">Claude edits <b>all</b> my videos now</div><div class="vcap"></div></div><figcaption>trial reel A</figcaption></figure>
+        <figure class="pol var"><span class="tape" aria-hidden="true"></span><div class="shot v-b"><video src="/media/raw-studio.mp4" poster="/media/raw-studio-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video><div class="vhook">I stopped waiting on <b>video editors</b></div><div class="vcap"></div></div><figcaption>trial reel B</figcaption></figure>
+        <figure class="pol var"><span class="tape" aria-hidden="true"></span><div class="shot v-c"><video src="/media/raw-studio.mp4" poster="/media/raw-studio-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video><div class="vhook">No timeline. <b>No editing app.</b></div><div class="vcap"></div></div><figcaption>trial reel C</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="panel" role="tabpanel" id="p-looks" aria-labelledby="t-looks" hidden>
+      <div class="panel-copy">
+        <h3>Same take, three looks</h3>
+        <p>Not sure what fits the video? Claude makes the same edit in a few looks so you can see them side by side, then post the one that feels like you, or test them all.</p>
+        <div class="prompt"><span class="tape" aria-hidden="true"></span><span class="eyebrow">What I asked for</span><p>Edit this in 3 different looks: one clean, one bold, one fun with pop-ups. Show them side by side.</p></div>
+      </div>
+      <div class="vars">
+        <figure class="pol var"><span class="tape" aria-hidden="true"></span><div class="shot v-clean"><video src="/media/raw-studio.mp4" poster="/media/raw-studio-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video><div class="vcap"></div></div><figcaption>clean</figcaption></figure>
+        <figure class="pol var"><span class="tape" aria-hidden="true"></span><div class="shot v-bold"><video src="/media/raw-studio.mp4" poster="/media/raw-studio-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video><div class="vcap"></div></div><figcaption>bold</figcaption></figure>
+        <figure class="pol var"><span class="tape" aria-hidden="true"></span><div class="shot v-pop"><video src="/media/raw-studio.mp4" poster="/media/raw-studio-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video><div class="vcap"></div></div><figcaption>pop</figcaption></figure>
       </div>
     </div>
 
@@ -563,24 +604,6 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
       </div>
     </div>
 
-    <div class="panel" role="tabpanel" id="p-script" aria-labelledby="t-script" hidden>
-      <div class="panel-copy">
-        <h3>And what to film next</h3>
-        <p>Claude reads the comments under the reel and writes the follow-up in my voice, with what to say and what goes on screen.</p>
-        <div class="prompt"><span class="tape" aria-hidden="true"></span><span class="eyebrow">What I asked for</span><p>Write a follow-up to this video in my voice. Under 45 seconds. Answer the question people ask most in the comments.</p></div>
-      </div>
-      <div class="doc">
-        <span class="tape" aria-hidden="true"></span>
-        <div class="doc-top"><span>any-editing-style.md</span><span>draft · 5 beats</span></div>
-        <div class="doc-body">
-          <div class="beat"><span class="t">0:00</span><div><p class="say">“Claude can copy any editing style. Here's the trick.”</p><p class="do">ON SCREEN · four identical edits side by side</p></div></div>
-          <div class="beat"><span class="t">0:03</span><div><p class="say">“Every big creator has a style you'd know anywhere.”</p><p class="do">LABELS · HORMOZI, ALI ABDAAL, DAN KOE fly in</p></div></div>
-          <div class="beat"><span class="t">0:10</span><div><p class="say">“Claude can edit like all of them. But the trick is not to copy one. Mix them.”</p><p class="do">MY SHOT · flicks through all three looks</p></div></div>
-          <div class="beat"><span class="t">0:22</span><div><p class="say">“I saved mine as a skill in Claude, so every video looks like me.”</p><p class="do">LABEL · YOUR STYLE on my own look</p></div></div>
-          <div class="beat"><span class="t">0:30</span><div><p class="say">“Comment [KEYWORD] and I'll add you to the waitlist.”</p><p class="do">CAPTION · keyword, soft pop</p></div></div>
-        </div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -645,10 +668,10 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
       <ul>
         <li><svg aria-hidden="true"><use href="#spark"/></svg><div><b>My editing setup for Claude.</b> The instructions I use, ready to copy, so Claude edits your way from the first try.</div></li>
         <li><svg aria-hidden="true"><use href="#spark"/></svg><div><b>Style starters.</b> Ready-made looks to start from and mix, plus a template for your own brand style.
-          <div class="chips"><span>Hormozi-style</span><span>GaryVee-style</span><span>Ali Abdaal-style</span><span>Dan Koe-style</span><span>your brand</span></div></div></li>
+          <div class="chips"><span>clean</span><span>bold</span><span>pop</span><span>minimal</span><span>your brand</span></div></div></li>
         <li><svg aria-hidden="true"><use href="#spark"/></svg><div><b>An effects library you can preview.</b> Watch each effect on a real clip, tick the ones you want, then render.
           <div class="chips"><span>captions</span><span>word highlight</span><span>logo pop</span><span>colour grade</span><span>text behind you</span><span>punch zoom</span><span>film look</span><span>3D flip</span></div></div></li>
-        <li><svg aria-hidden="true"><use href="#spark"/></svg><div><b>Prompts for carousels and scripts.</b> The exact wording I use to get a week of posts out of one video.</div></li>
+        <li><svg aria-hidden="true"><use href="#spark"/></svg><div><b>Prompts for hooks, variations and carousels.</b> The exact wording I use to get trial reels and a carousel out of one video.</div></li>
       </ul>
     </div>
   </div>
@@ -746,31 +769,82 @@ soundBtn.addEventListener("click", () => {
   document.getElementById("snd-wave").setAttribute("d", soundOn ? "M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14" : "M22 9l-6 6M16 9l6 6");
 });
 
-// Style lab
-const bulb = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg>';
-const star = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.9L22 9.6l-5.5 4.8L18.2 22 12 18.3 5.8 22l1.7-7.6L2 9.6l7.1-.7z"/></svg>';
-const STYLES = {
-  hormozi: { label: "Hormozi-style",
-    cap: '<div class="cap-h">This is <span>my</span> style</div>', pops: "",
-    desc: "<b>Loud and punchy.</b> Huge word-by-word captions, the key word in yellow, a zoom on every beat." },
-  gary: { label: "GaryVee-style",
-    cap: '<div class="cap-g"><b>This is my style</b><small>raw · fast · no fluff</small></div>', pops: "",
-    desc: "<b>Raw and fast.</b> Black caption bars, quick cuts and a little yellow label for the point you're making." },
-  ali: { label: "Ali Abdaal-style",
-    cap: '<div class="cap-a"><span class="ic">' + bulb + '</span><span><b>This is my style</b><small>soft, warm, friendly</small></span></div>',
-    pops: '<span class="pop" style="top:16%;right:9%;background:#FFE3B8;color:#C77A16">' + star + '</span><span class="pop" style="top:34%;left:8%;background:#D9ECFF;color:#3C7BC0">' + bulb + '</span>',
-    desc: "<b>Soft and warm.</b> Pastel colours, rounded text cards and little icons popping in beside you." },
-  koe: { label: "Dan Koe-style",
-    cap: '<div class="cap-d">this is my style<span class="cur"></span></div>', pops: "",
-    desc: "<b>Minimal and moody.</b> Black and white with grain, one clean line of text typing on." },
-  brand: { label: "✦ your brand",
-    cap: '<div class="cap-b"><span>This</span><span>is</span><span class="hi">my</span><span>style</span></div>', pops: "",
-    desc: "<b>Only yours.</b> Your colours and your font on every caption. Try a palette or pick your own." }
-};
+// Slash studio: effects layered live on the raw clip, captions synced to my words.
+// To swap the clip: change the video src and the WORDS list (start, end, word).
+const WORDS = [[0.11,0.23,"Simply"],[0.23,0.63,"upload"],[0.63,0.85,"your"],[0.85,1.03,"raw"],[1.03,1.39,"footage,"],[1.71,1.71,"and"],[1.71,1.95,"this"],[1.95,2.35,"prompt."],[2.35,2.95,"Now"],[2.95,3.23,"it"],[3.23,3.45,"cuts"],[3.45,3.57,"the"],[3.57,3.79,"best"],[3.79,4.19,"takes,"],[4.19,4.55,"adds"],[4.55,4.99,"relevant"],[4.99,5.39,"motion"],[5.39,5.77,"graphics"],[5.77,6.03,"and"],[6.03,6.49,"B-roll."],[6.63,7.01,"But"],[7.01,7.21,"if"],[7.21,7.35,"you"],[7.35,7.51,"want"],[7.51,7.55,"to"],[7.55,7.73,"take"],[7.73,8.09,"it,"],[8.17,8.27,"one"],[8.27,8.45,"step"],[8.45,8.77,"further,"],[8.81,9.25,"like"],[9.25,9.35,"I"],[9.35,9.65,"did,"],[9.75,9.93,"just"],[9.93,10.45,"type:"],[10.65,10.65,"add"],[10.65,11.01,"dynamic"],[11.01,11.59,"transitions,"],[11.97,12.21,"or"],[12.21,12.55,"add"],[12.55,12.85,"sound"],[12.85,13.29,"effects."],[13.45,13.53,"You"],[13.53,13.73,"can"],[13.73,13.85,"make"],[13.85,14.05,"it"],[14.05,14.33,"do"],[14.33,14.71,"anything"],[14.71,15.13,"just"],[15.13,15.31,"by"],[15.31,15.73,"chatting,"],[15.77,15.97,"and"],[15.97,16.19,"here"],[16.19,16.33,"is"],[16.33,16.47,"the"],[16.47,16.65,"best"],[16.65,17.01,"part."],[17.03,17.15,"You"],[17.15,17.39,"can"],[17.39,17.57,"save"],[17.57,17.89,"your"],[17.89,18.03,"edit"],[18.03,18.29,"as"],[18.29,18.55,"a"],[18.55,18.73,"skill,"],[19.05,19.07,"so"],[19.07,19.21,"you"],[19.21,19.51,"can"],[19.51,19.75,"edit"],[19.75,19.97,"10"],[19.97,20.29,"times"],[20.29,20.73,"faster."]];
+// Caption lines: break after punctuation or every 3 words.
+const LINES = []; { let cur = [];
+  WORDS.forEach((w, i) => { cur.push(i); if (/[.,]$/.test(w[2]) || cur.length === 3) { LINES.push(cur); cur = []; } });
+  if (cur.length) LINES.push(cur); }
+const lineAt = t => LINES.find(l => t >= WORDS[l[0]][0] - .05 && t <= WORDS[l[l.length-1]][1] + .15);
+const spark = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.3 7.7L22 12l-7.7 2.3L12 22l-2.3-7.7L2 12l7.7-2.3z"/></svg>';
+const POPS = [ // seconds -> pop-up
+  {t:3.4, txt:"✂ best takes", cls:"hi", pos:"top:24%;left:8%;--r:-6deg"},
+  {t:4.9, txt:spark+" motion graphics", cls:"", pos:"top:30%;right:7%;--r:5deg"},
+  {t:6.0, txt:"+ B-roll", cls:"hi", pos:"top:25%;left:10%;--r:-4deg"},
+  {t:10.6, txt:"↯ transitions", cls:"", pos:"top:29%;right:8%;--r:6deg"},
+  {t:12.4, txt:"🔊 sound effects", cls:"hi", pos:"top:24%;left:8%;--r:-5deg"},
+  {t:18.2, txt:spark+" saved as a skill", cls:"", pos:"top:28%;right:7%;--r:4deg"},
+  {t:19.6, txt:"10× faster", cls:"hi", pos:"top:23%;left:10%;--r:-4deg"}];
+const HOOK = 'Edit your video <b>just by chatting</b>';
+const labV = document.getElementById("lab-video"), frame = document.getElementById("lab-frame"),
+  zoomEl = document.getElementById("lab-zoom"), capEl = document.getElementById("lab-cap"),
+  popsEl = document.getElementById("lab-pops"), hookEl = document.getElementById("lab-hook"),
+  typed = document.getElementById("slash-typed"), kit = document.getElementById("brand-kit");
+const fxBtns = [...document.querySelectorAll("[data-fx]")];
+const on = new Set();
+let lastLine = null, lastPop = -1;
+function render() {
+  const t = labV.currentTime;
+  // captions
+  const line = on.has("captions") ? lineAt(t) : null;
+  if (line !== lastLine) {
+    capEl.innerHTML = line ? '<div class="cap-w">' + line.map(i => '<span data-i="' + i + '">' + WORDS[i][2].replace(/[.,]$/, "") + '</span>').join("") + '</div>' : "";
+    // zoom: alternate punch-in per caption line
+    if (line) zoomEl.classList.toggle("punch", LINES.indexOf(line) % 2 === 1); else zoomEl.classList.remove("punch");
+    lastLine = line;
+  }
+  if (!on.has("captions") && on.has("zoom")) { const li = LINES.indexOf(lineAt(t)); zoomEl.classList.toggle("punch", li % 2 === 1); }
+  capEl.querySelectorAll("span").forEach(sp => { const w = WORDS[+sp.dataset.i]; sp.classList.toggle("on", t >= w[0] && t < w[1] + .08); });
+  // hook in the first 3 seconds
+  hookEl.classList.toggle("show", on.has("hook") && t < 3.2);
+  // pop-ups
+  if (on.has("popups")) {
+    const idx = POPS.findIndex(p => t >= p.t && t < p.t + 1.5);
+    if (idx !== lastPop) {
+      [...popsEl.children].forEach(c => { c.classList.add("out"); setTimeout(() => c.remove(), 260); });
+      if (idx > -1) { const p = POPS[idx], el = document.createElement("span"); el.className = "pop " + p.cls; el.style.cssText = p.pos; el.innerHTML = p.txt; popsEl.appendChild(el); }
+      lastPop = idx;
+    }
+  } else if (popsEl.children.length) { popsEl.innerHTML = ""; lastPop = -1; }
+  requestAnimationFrame(render);
+}
+requestAnimationFrame(render);
+let typing;
+function typeCmd(text) {
+  clearInterval(typing); let i = 0; typed.className = ""; typed.textContent = "";
+  typing = setInterval(() => { typed.textContent = text.slice(0, ++i); if (i >= text.length) clearInterval(typing); }, 38);
+}
+function sync() {
+  frame.classList.toggle("fx-zoom", on.has("zoom"));
+  frame.classList.toggle("fx-color", on.has("color"));
+  fxBtns.forEach(b => b.setAttribute("aria-pressed", on.has(b.dataset.fx)));
+  kit.hidden = !on.has("brand");
+  document.getElementById("lab-label").textContent = on.size ? "edited by Claude" : "raw file";
+  lastLine = undefined;
+}
+fxBtns.forEach(b => b.addEventListener("click", () => {
+  const fx = b.dataset.fx;
+  if (on.has(fx)) on.delete(fx); else { on.add(fx); typeCmd(b.querySelector("b").textContent); if (fx === "brand" && !on.has("captions")) on.add("captions"); }
+  if (fx === "hook" && on.has("hook")) labV.currentTime = 0;
+  sync();
+}));
+document.getElementById("slash-reset").addEventListener("click", () => { on.clear(); sync(); typed.textContent = "Type / to add an effect"; typed.className = "ph"; });
+typed.className = "ph";
+const soundBtn2 = document.getElementById("lab-sound");
+soundBtn2.addEventListener("click", () => { labV.muted = !labV.muted; if (!labV.muted) labV.currentTime = 0; labV.play().catch(() => {}); soundBtn2.textContent = labV.muted ? "tap for sound" : "sound on"; soundBtn2.setAttribute("aria-pressed", !labV.muted); });
+// Brand kit drives the caption + hook colours and font.
 const FONTS = { display: ['var(--f-display)', 800], hand: ['var(--f-hand)', 700], mono: ['var(--f-mono)', 600] };
-const frame = document.getElementById("lab-frame");
-const styleBtns = [...document.querySelectorAll("[data-style]")];
-const kit = document.getElementById("brand-kit");
 function applyBrand() {
   const [font, weight] = FONTS[document.getElementById("c-font").value];
   frame.style.setProperty("--b-hi", document.getElementById("c-hi").value);
@@ -779,24 +853,27 @@ function applyBrand() {
   frame.style.setProperty("--b-font", font);
   frame.style.setProperty("--b-weight", weight);
 }
-function setStyle(key) {
-  const s = STYLES[key];
-  frame.className = "lab-frame s-" + key;
-  document.getElementById("lab-label").textContent = s.label;
-  document.getElementById("lab-cap").innerHTML = s.cap;
-  document.getElementById("lab-pops").innerHTML = s.pops;
-  document.getElementById("style-desc").innerHTML = s.desc;
-  styleBtns.forEach(b => b.setAttribute("aria-pressed", b.dataset.style === key));
-  kit.hidden = key !== "brand";
-}
-styleBtns.forEach(b => b.addEventListener("click", () => setStyle(b.dataset.style)));
 ["c-hi","c-bg","c-tx","c-font"].forEach(id => document.getElementById(id).addEventListener("input", applyBrand));
 document.querySelectorAll("#swatches button").forEach(b => b.addEventListener("click", () => {
   const [hi, bg, tx] = b.dataset.p.split(",");
   document.getElementById("c-hi").value = hi; document.getElementById("c-bg").value = bg; document.getElementById("c-tx").value = tx;
   applyBrand();
 }));
-applyBrand(); setStyle("hormozi");
+hookEl.innerHTML = HOOK;
+
+// Variation minis (hooks + looks): word captions on each, hook shows the first 3 sec.
+document.querySelectorAll(".vars .shot").forEach(shot => {
+  const v = shot.querySelector("video"), cap = shot.querySelector(".vcap"), hk = shot.querySelector(".vhook");
+  let last = null;
+  const tick = () => {
+    const t = v.currentTime, line = lineAt(t);
+    if (hk) hk.style.opacity = t < 3.2 ? 1 : 0;
+    if (line !== last) { cap.innerHTML = line && !(hk && t < 3.2) ? line.map(i => '<span data-i="' + i + '">' + WORDS[i][2].replace(/[.,]$/, "") + '</span>').join("") : ""; last = line; }
+    cap.querySelectorAll("span").forEach(sp => { const w = WORDS[+sp.dataset.i]; sp.classList.toggle("on", t >= w[0] && t < w[1] + .08); });
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+});
 
 // Tabs
 const tabs = [...document.querySelectorAll('[role="tab"]')];
