@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Free guides · shedoesai</title>
+<meta name="description" content="Free AI video guides from @shedoesai: the exact tools, prompts and steps behind my reels.">
+<meta property="og:title" content="Free guides">
+<meta property="og:description" content="Free AI video guides from @shedoesai: the exact tools, prompts and steps behind my reels.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;800&family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/guides/guides.css">
+</head>
+<body>
+<nav><div class="wrap">
+  <a class="logo" href="/guides"><b>shedoesai</b><span class="mono hide-sm">Free guides</span></a>
+  <div class="navlinks">
+    <a class="plain on" href="/guides">Guides</a>
+    <a class="plain" href="/editing">The Claude Editing Challenge</a>
+    <a class="pill" href="/editing#join">Join the waitlist</a>
+  </div>
+</div></nav>
+<header class="hero"><div class="wrap">
+  <span class="badge"><i></i>New guides every week</span>
+  <h1>Free guides<span class="script">steal my workflows</span></h1>
+  <p>The exact tools, prompts and steps behind my reels. Comment the keyword under the reel and I'll DM it to you, or just grab it here.</p>
+</div></header>
+<main class="wrap">
+  <div class="filters"><button class="on" data-f="all">All</button><button data-f="video">AI video</button><button data-f="claude">Claude</button><button data-f="editing">Editing</button></div>
+  <div class="grid"><a class="card" href="/guides/cafe-swap" data-tags="video"><span class="tape"></span><div class="thumb" style="background-image:linear-gradient(180deg,rgba(21,19,17,0) 45%,rgba(21,19,17,.85)),url('/guides/assets/cafe-swap-cover.jpg')">Put yourself into any viral video</div><div class="meta"><span class="tag new">New</span><span class="tag">AI video</span><span class="tag">Higgsfield</span></div><h3>Put yourself into any viral video</h3><p>My exact workflow: character sheet, Genjutsu Objects swap and the prompt.</p><div class="kw">keyword: CAFE</div></a><a class="card" href="/guides/claude-effects" data-tags="claude editing"><span class="tape"></span><div class="thumb" style="background-image:linear-gradient(180deg,rgba(21,19,17,0) 45%,rgba(21,19,17,.85)),url('/media/reel-effects-poster.jpg')">Edit your reels with Claude + 32 effects</div><div class="meta"><span class="tag">Claude</span><span class="tag">Editing</span></div><h3>Edit your reels with Claude + 32 effects</h3><p>How I get Claude to edit my reels, plus 32 effects with the exact prompts.</p><div class="kw">keyword: CLAUDE</div></a><a class="card" href="/guides/swing-reel" data-tags="claude editing"><span class="tape"></span><div class="thumb" style="background:#E08A5F;color:#151311">Make a swing reel with Claude</div><div class="meta"><span class="tag">Claude</span><span class="tag">Skill</span></div><h3>Make a swing reel with Claude</h3><p>The free skill behind my swinging-ball reel. No camera, no editing app.</p><div class="kw">keyword: GAME</div></a><a class="card" href="/guides/fake-it-arcads" data-tags="video"><span class="tape"></span><div class="thumb" style="background-image:linear-gradient(180deg,rgba(21,19,17,0) 45%,rgba(21,19,17,.85)),url('/guides/assets/fake-it-character.jpg')">Make your own viral AI character</div><div class="meta"><span class="tag">AI video</span><span class="tag">Arcads</span></div><h3>Make your own viral AI character</h3><p>Create a character and drop it into any trend with Arcads Replace Actor.</p></a></div>
+</main>
+<section class="paper cta-band"><div class="wrap">
+  <div><span class="script" style="font-size:28px">want the full system?</span><h2>Learn to edit every reel with Claude in 7 days.</h2></div>
+  <a class="pill" href="/editing#join">Join the waitlist</a>
+</div></section>
+<footer><div class="wrap">
+  <span>© Shedoesai ApS · <a href="https://www.instagram.com/shedoesai/">@shedoesai</a></span>
+  <span>Not affiliated with Anthropic or any tool or creator named here.</span>
+</div></footer>
+<script>
+document.querySelectorAll('.copy').forEach(btn=>btn.addEventListener('click',()=>{
+  const box=btn.parentElement.cloneNode(true);box.querySelectorAll('.copy,.lbl').forEach(n=>n.remove());
+  navigator.clipboard.writeText(box.innerText.trim()).then(()=>{btn.textContent='Copied ✓';setTimeout(()=>btn.textContent='Copy',1600)});
+}));
+document.querySelectorAll('.filters button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.filters button').forEach(x=>x.classList.toggle('on',x===b));
+  const f=b.dataset.f;document.querySelectorAll('.card').forEach(c=>c.classList.toggle('hidden',f!=='all'&&!c.dataset.tags.split(' ').includes(f)));
+}));
+const s=document.getElementById('fxsearch');if(s)s.addEventListener('input',()=>{const q=s.value.toLowerCase();document.querySelectorAll('.fxc').forEach(c=>c.classList.toggle('hidden',!c.innerText.toLowerCase().includes(q)))});
+</script>
+</body>
+</html>
