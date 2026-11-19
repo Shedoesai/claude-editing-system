@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
 
   // Honeypot: bots fill the hidden "company" field. Pretend it worked.
   if (body.company) return res.status(200).json({ ok: true });
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ ok: false, error: "email" });
+  if (!validEmail(email)) return res.status(400).json({ ok: false, error: "email" });
 
   try {
     // Tagging can fail after the sign-up itself worked; the visitor still counts as signed up.
@@ -30,5 +30,13 @@ module.exports = async (req, res) => {
     return res.status(err.message === "not_configured" ? 500 : 502).json({ ok: false, error: err.message === "not_configured" ? "not_configured" : undefined });
   }
 };
+
+function validEmail(email) {
+  // Waitlist addresses are limited to 254 characters after normalization.
+  // Check the separator separately so dotted domains cannot cause backtracking.
+  if (email.length > 254 || !/^[^\s@]+@[^\s@]+$/.test(email)) return false;
+  const dot = email.indexOf(".", email.indexOf("@") + 2);
+  return dot !== -1 && dot < email.length - 1;
+}
 
 function safeJson(s) { try { return JSON.parse(s); } catch (_) { return {}; } }
